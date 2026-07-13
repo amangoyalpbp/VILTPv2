@@ -1,0 +1,21 @@
+topic,language,date,time,trainer,scheduled duration,walk-in allowed
+Topic 1,Hindi,01 Aug 2026,12:00 PM,Trainer 1,60,No
+Topic 1,Telugu,02 Aug 2026,4:00 PM,Trainer 2,60,No
+Topic 1,Kannada,01 Aug 2026,4:00 PM,Trainer 1,60,No
+Topic 1,Tamil,02 Aug 2026,12:00 PM,Trainer 2,60,No
+Topic 2,Hindi,03 Aug 2026,12:00 PM,Trainer 3,60,Yes
+Topic 2,Telugu,04 Aug 2026,4:00 PM,Trainer 4,60,Yes
+Topic 2,Kannada,03 Aug 2026,4:00 PM,Trainer 3,60,No
+Topic 2,Tamil,04 Aug 2026,12:00 PM,Trainer 4,60,No
+Topic 3,Hindi,01 Aug 2026,3:00 PM,Trainer 1,60,No
+Topic 3,Telugu,02 Aug 2026,6:00 PM,Trainer 2,60,No
+Topic 3,Kannada,01 Aug 2026,3:00 PM,Trainer 1,60,No
+Topic 3,Tamil,02 Aug 2026,6:00 PM,Trainer 2,60,No
+Topic 4,Hindi,03 Aug 2026,12:00 PM,Trainer 3,60,Yes
+Topic 4,Telugu,04 Aug 2026,4:00 PM,Trainer 4,60,Yes
+Topic 4,Kannada,03 Aug 2026,4:00 PM,Trainer 3,60,No
+Topic 4,Tamil,04 Aug 2026,12:00 PM,Trainer 4,60,No
+Topic 5,Hindi,05 Aug 2026,12:00 PM,Trainer 1,60,Yes
+Topic 5,Telugu,06 Aug 2026,4:00 PM,Trainer 2,60,Yes
+Topic 5,Kannada,05 Aug 2026,4:00 PM,Trainer 1,60,Yes
+Topic 5,Tamil,06 Aug 2026,12:00 PM,Trainer 2,60,Yes
