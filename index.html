@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Saksham</title>
+<style>
+:root{
+  --brand:#2563eb;--brand-600:#1d4ed8;--brand-700:#1e40af;
+  --brand-soft:#eaf1fe;--brand-soft2:#f4f8ff;
+  --ink:#0f1729;--muted:#64748b;--line:#eef1f6;--line2:#e7ebf3;
+  --bg:#f5f7fb;--card:#fff;
+  --green:#0f9d58;--green-s:#e6f6ec;--amber:#b7791f;--amber-s:#fdf3e2;--red:#dc2626;--red-s:#fdecec;--teal:#0f766e;--teal-s:#e3f4f1;--purple:#6941c6;--purple-s:#efe9fb;
+  --radius:16px;--shadow:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04);--shadow-lg:0 10px 30px rgba(16,24,40,.12);
+}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+.app{display:flex;min-height:100vh}
+/* sidebar */
+.sidebar{width:248px;background:#fff;border-right:1px solid var(--line);flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{padding:20px 20px 14px;display:flex;align-items:center;gap:11px}
+.brand .mk{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 4px 10px rgba(37,99,235,.3)}
+.brand h1{font-size:19px;margin:0;letter-spacing:-.3px}.brand small{color:var(--muted);font-size:11px;font-weight:500}
+.navlbl{font-size:10.5px;font-weight:700;letter-spacing:.09em;color:#9aa5b8;text-transform:uppercase;padding:6px 22px 6px}
+.sidebar nav{padding:6px 12px;overflow-y:auto;flex:1}
+.sidebar nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;color:#475069;margin-bottom:2px;font-size:13.5px;font-weight:500;cursor:pointer}
+.sidebar nav a svg{color:#8a93a6;flex-shrink:0}
+.sidebar nav a:hover{background:#f5f7fb;color:var(--ink)}
+.sidebar nav a.active{background:var(--brand-soft);color:var(--brand);font-weight:600}
+.sidebar nav a.active svg{color:var(--brand)}
+.foot{padding:12px;margin:10px;border-top:1px solid var(--line)}
+.chip{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;cursor:pointer}
+.chip:hover{background:#f5f7fb}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.chip .nm{font-size:13px;font-weight:600;line-height:1.1}.chip .rl{font-size:11px;color:var(--muted)}
+.switch{width:100%;margin-top:6px;border:1px solid var(--line2);background:#fff;color:var(--muted);border-radius:10px;padding:8px;font-size:12px;font-weight:600}
+.switch:hover{background:#f5f7fb;color:var(--ink)}
+/* main */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:20}
+.topbar .date{font-size:13px;color:var(--muted);font-weight:500}
+.topbar .rt{display:flex;align-items:center;gap:12px}
+.livepill{display:inline-flex;align-items:center;gap:7px;background:#fdecec;color:var(--red);font-weight:600;font-size:12.5px;padding:7px 13px;border-radius:999px;border:none;cursor:pointer}
+.livedot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}70%{box-shadow:0 0 0 7px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+.iconbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:#fff;color:#64748b;display:flex;align-items:center;justify-content:center;position:relative}
+.iconbtn:hover{background:#f5f7fb}.iconbtn .dot{position:absolute;top:9px;right:10px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid #fff}
+.acct{display:flex;align-items:center;gap:9px;padding:5px 10px 5px 6px;border:1px solid var(--line2);border-radius:999px;background:#fff}
+.acct:hover{background:#f5f7fb}.acct .nm{font-size:12.5px;font-weight:600;line-height:1.05}.acct .id{font-size:11px;color:var(--muted)}
+.content{padding:24px 30px;max-width:1200px;width:100%}
+/* headings */
+h2.pt{font-size:23px;margin:0 0 4px;letter-spacing:-.4px}.psub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.navlbl2,h3.sec{font-size:11px;font-weight:700;letter-spacing:.07em;color:#9aa5b8;text-transform:uppercase;margin:26px 0 12px}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px}
+.card .ch{padding:15px 18px;border-bottom:1px solid var(--line);font-weight:600;font-size:14.5px;display:flex;justify-content:space-between;align-items:center}
+.card .cb{padding:18px}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;gap:13px;align-items:flex-start}
+.kpi .ic{width:38px;height:38px;border-radius:11px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi .l{font-size:12.5px;color:var(--muted);font-weight:500}.kpi .v{font-size:23px;font-weight:750;letter-spacing:-.5px;margin-top:2px}.kpi .s{font-size:11px;color:#9aa5b8;margin-top:1px}
+/* live banner */
+.livebanner{display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(100deg,#1e3a8a,#2563eb);color:#fff;border-radius:16px;padding:16px 20px;margin-bottom:18px;box-shadow:0 8px 24px rgba(37,99,235,.28)}
+.livebanner .lt{display:flex;align-items:center;gap:12px}
+.livebanner .ld{width:9px;height:9px;border-radius:50%;background:#fff;animation:pulse 1.4s infinite}
+.livebanner b{font-size:15px}.livebanner .sub{font-size:12.5px;opacity:.85}
+.livebanner .go{background:#fff;color:var(--brand);border:none;border-radius:10px;padding:9px 16px;font-weight:700;font-size:13px}
+/* tables */
+table.tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+table.tbl th{background:#fafbfd;color:#7c8699;text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:11px 14px;border-bottom:1px solid var(--line)}
+table.tbl th.th-sort{cursor:pointer;user-select:none;white-space:nowrap}
+table.tbl th.th-sort:hover{color:var(--brand);background:#f2f5fb}
+table.tbl th.th-sort.on{color:var(--brand)}
+table.tbl th .scaret{display:inline-block;margin-left:5px;font-size:9px;opacity:.55}
+table.tbl th.th-sort.on .scaret{opacity:1}
+table.tbl td{padding:12px 14px;border-top:1px solid var(--line);font-size:13.5px;vertical-align:middle}
+table.tbl tbody tr:hover td{background:#fafbfe}
+/* badges */
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-gray{background:#f1f4f9;color:#5b6577}.b-blue{background:var(--brand-soft);color:var(--brand)}.b-green{background:var(--green-s);color:var(--green)}.b-amber{background:var(--amber-s);color:var(--amber)}.b-red{background:var(--red-s);color:var(--red)}.b-teal{background:var(--teal-s);color:var(--teal)}.b-purple{background:var(--purple-s);color:var(--purple)}
+/* buttons */
+.btn{border:1px solid var(--line2);background:#fff;color:var(--ink);padding:9px 15px;border-radius:10px;font-size:13px;font-weight:600}
+.btn:hover{background:#f5f7fb}.btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}.btn.primary:hover{background:var(--brand-600)}
+.btn.danger{background:#fff;color:var(--red);border-color:#f3c9c9}.btn.danger:hover{background:#fdf0f0}
+.btn.sm{padding:6px 11px;font-size:12px}.btn.ghost{border-color:transparent;background:transparent;color:var(--brand)}.btn.ghost:hover{background:var(--brand-soft)}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+/* forms */
+label.f{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:600}
+input.in,select.in,textarea.in{width:100%;padding:9px 11px;border:1px solid var(--line2);border-radius:10px;font-size:13px;background:#fff;color:var(--ink)}
+input.in:focus,select.in:focus,textarea.in:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.field{margin-bottom:13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.filters{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}.filters .field{margin:0;min-width:160px}
+/* modal */
+.mback{position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;z-index:50;padding:44px 16px;overflow:auto}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:660px;box-shadow:var(--shadow-lg)}.modal.wide{max-width:920px}
+.modal .mh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal .mh h3{margin:0;font-size:17px}
+.modal .mb{padding:22px;max-height:66vh;overflow:auto}.modal .mf{padding:15px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:9px}
+.x{border:none;background:#f1f4f9;width:32px;height:32px;border-radius:9px;font-size:18px;color:var(--muted)}.x:hover{background:#e7ebf3}
+/* toast */
+.toasts{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:9px;z-index:100}
+.toast{background:#0f1729;color:#fff;padding:12px 17px;border-radius:11px;font-size:13px;box-shadow:var(--shadow-lg);max-width:380px}.toast.err{background:var(--red)}.toast.ok{background:var(--green)}
+.muted{color:var(--muted)}.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.tabs button{border:none;background:none;padding:11px 15px;font-size:13.5px;color:var(--muted);border-bottom:2px solid transparent;font-weight:600}.tabs button.active{color:var(--brand);border-bottom-color:var(--brand)}
+.empty{text-align:center;color:var(--muted);padding:34px;font-size:13.5px}.empty .big{font-size:15px;color:var(--ink);font-weight:600;margin-bottom:4px}
+hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0}.help{font-size:12px;color:var(--muted);margin-top:5px}
+.checkline{display:flex;align-items:center;gap:9px;font-size:13px;margin:7px 0}
+.stat{display:flex;gap:26px;flex-wrap:wrap;margin:8px 0 16px}.stat .n{font-size:21px;font-weight:750}.stat .l{font-size:11px;color:var(--muted)}
+.herorow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.herocard{border-radius:18px;padding:22px 24px;color:#fff;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.herocard.blue{background:linear-gradient(135deg,#2563eb,#1e3a8a)}.herocard.teal{background:linear-gradient(135deg,#0f766e,#0b5c66)}
+.herocard .hl{font-size:13px;opacity:.9;font-weight:600}.herocard .hv{font-size:44px;font-weight:800;line-height:1;margin:8px 0 2px;letter-spacing:-1px}.herocard .hs{font-size:12.5px;opacity:.85}
+.herocard .hic{position:absolute;right:18px;top:18px;opacity:.35}
+.picktbl-wrap{max-height:380px;overflow:auto;border:1px solid var(--line);border-radius:12px}
+.picktbl{width:100%;border-collapse:collapse}
+.picktbl th{position:sticky;top:0;z-index:2;background:#f4f6fb;color:#5b6577;text-align:left;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:11px 12px;border-bottom:1px solid var(--line2)}
+.picktbl td{padding:10px 12px;border-top:1px solid var(--line);font-size:13px;vertical-align:middle}
+.picktbl tbody tr:hover td{background:#fafbfe}
+.picktbl input[type=checkbox]{width:16px;height:16px;cursor:pointer}
+.picktbl input:disabled{opacity:.3;cursor:not-allowed}
+.selall{display:flex;align-items:center;gap:18px;background:var(--brand-soft2);border:1px solid var(--brand-soft);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:13px}
+.selall label{display:flex;align-items:center;gap:7px;font-weight:600;color:var(--navy)}
+.searchwrap{position:relative;margin-bottom:12px}
+.searchwrap svg{position:absolute;left:12px;top:11px;color:#9aa5b8}
+.searchwrap input{padding-left:36px}
+.tag-new{display:inline-block;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#0f766e;background:#e3f4f1;padding:2px 7px;border-radius:6px;vertical-align:middle}
+.pill-legend{font-size:12.5px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--teal)}
+/* login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 500px at 50% -10%,#dbe7ff,transparent),linear-gradient(160deg,#f5f7fb,#eef3fc);padding:20px}
+.lcard{background:#fff;border-radius:22px;padding:38px;width:100%;max-width:520px;box-shadow:var(--shadow-lg)}
+.lbrand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.lcard h1{margin:0;font-size:26px;letter-spacing:-.5px}.lcard .tag{color:var(--muted);font-size:13px}
+.lcard p.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.rbtn{display:flex;align-items:center;gap:14px;text-align:left;padding:15px 16px;border:1px solid var(--line2);border-radius:14px;background:#fff;width:100%;margin-bottom:11px}
+.rbtn:hover{border-color:var(--brand);background:var(--brand-soft2);transform:translateY(-1px);transition:.12s}
+.rbtn .ri{width:40px;height:40px;border-radius:11px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rbtn .rn{font-weight:700;font-size:14.5px}.rbtn .rd{font-size:12.5px;color:var(--muted)}
+.rbtn .arw{margin-left:auto;color:var(--brand)}
+/* classroom */
+.classroom{background:#0b1220;color:#dfe6f2;border-radius:18px;min-height:470px;display:grid;grid-template-columns:1fr 320px;overflow:hidden;box-shadow:var(--shadow-lg)}
+.classroom .stage{padding:20px;display:flex;flex-direction:column}
+.classroom .slide{background:linear-gradient(160deg,#132038,#0e1a2f);border:1px solid #22314c;border-radius:14px;flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.classroom .slide .big{font-size:28px;font-weight:750;color:#fff}
+.classroom .side{background:#0a0f1c;border-left:1px solid #1b2740;display:flex;flex-direction:column}
+.classroom .side .tabs2{display:flex}.classroom .side .tabs2 button{flex:1;background:none;border:none;color:#8ea3c4;padding:12px;font-size:12px;border-bottom:2px solid transparent;font-weight:600}.classroom .side .tabs2 button.active{color:#fff;border-bottom-color:var(--brand)}
+.classroom .side .body{flex:1;overflow:auto;padding:12px;font-size:12.5px}
+.classroom .ctrl{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}.classroom .ctrl .btn{background:#182640;color:#dfe6f2;border-color:#28395a}.classroom .ctrl .btn.on{background:var(--brand);border-color:var(--brand);color:#fff}.classroom .ctrl .btn.rec{background:var(--red);border-color:var(--red);color:#fff}
+.msg{margin-bottom:9px}.msg b{color:#cdd8ea}.ticker{color:#8ea3c4;font-style:italic;margin-bottom:7px}.part{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #172236}
+@media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}.classroom{grid-template-columns:1fr}.acct .nm,.acct .id,.topbar .date{display:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="modal"></div>
+<div class="toasts" id="toasts"></div>
+<script>
+"use strict";
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const uid=p=>(p||'id')+'_'+Math.random().toString(36).slice(2,9);
+const BUS=['Life','Health','Motor'],LANGS=['Hindi','English','Kannada','Telugu','Tamil'],MTYPES=['Session content','Takeaway','Both'];
+const pct=(n,d)=>d?Math.round(n/d*100):0;
+function fmtDT(iso){const d=new Date(iso);return d.toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+' IST';}
+function fmtD(iso){return new Date(iso).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+function parseCSV(t){const rows=[];let row=[],f='',i=0,q=false;t=t.replace(/\r\n/g,'\n').replace(/\r/g,'\n');while(i<t.length){const c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i+=2;continue}q=false;i++;continue}f+=c;i++;continue}if(c==='"'){q=true;i++;continue}if(c===','){row.push(f);f='';i++;continue}if(c==='\n'){row.push(f);rows.push(row);row=[];f='';i++;continue}f+=c;i++}if(f.length||row.length){row.push(f);rows.push(row)}return rows.filter(r=>r.some(c=>c.trim()!==''));}
+function toObjects(t,h){const rows=parseCSV(t);if(!rows.length)return[];const head=rows[0].map(x=>x.trim().toLowerCase());const out=[];for(let r=1;r<rows.length;r++){const o={};h.forEach(k=>{const idx=head.indexOf(k.toLowerCase());o[k]=idx>=0?(rows[r][idx]||'').trim():''});out.push(o)}return out;}
+const TEMPLATES={cohorts:['partner code','partner language','BU','cohort ID','cohort name'],topics:['cohort ID','topic'],calendar:['topic','language','date','time','trainer','scheduled duration','walk-in allowed'],addpartners:['partner code']};
+function dl(n,t){const b=new Blob([t],{type:'text/csv'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u);}
+const now=()=>Date.now();
+function computeStatus(s){if(s.status==='Cancelled')return'Cancelled';if(s.forceLive)return'Live';const st=new Date(s.startISO).getTime(),en=st+s.durationMin*60000,n=now();if(n<st-3e5)return'Scheduled';if(n<st)return'Waiting Room';if(n<en)return'Live';return'Completed';}
+function eligible(topic,language){const c=new Set(db.topicMap.filter(t=>t.topic===topic).map(t=>String(t.cohortId)));return db.partners.filter(p=>c.has(String(p.cohortId))&&p.language===language);}
+function sessEnr(id){return db.enrolments.filter(e=>e.sessionId===id)}
+function att(id){return db.attendance.filter(a=>a.sessionId===id)}
+function partner(c){return db.partners.find(p=>p.code===c)}
+function trainer(id){return db.trainers.find(t=>t.id===id)}
+function deriveBU(id){const en=db.enrolments.filter(e=>e.sessionId===id&&(e.source==='Assigned'||e.source==='Manually added'));const bus=[...new Set(en.map(e=>partner(e.partnerCode)&&partner(e.partnerCode).bu).filter(Boolean))];if(!bus.length)return'-';if(bus.length===1)return bus[0];if(bus.length===BUS.length)return'All';return'Multi-BU';}
+function sessionBUList(id){const en=db.enrolments.filter(e=>e.sessionId===id&&(e.source==='Assigned'||e.source==='Manually added'));return [...new Set(en.map(e=>partner(e.partnerCode)&&partner(e.partnerCode).bu).filter(Boolean))];}
+function buCell(id){const bus=sessionBUList(id);if(!bus.length)return'<span class="muted" title="No partners assigned yet">Not assigned</span>';if(bus.length===1)return badge(bus[0],'blue');const all=bus.length===BUS.length;const label=all?'All BUs':'Multi-BU';return '<span title="'+esc(bus.join(', '))+'" style="cursor:help;border-bottom:1px dotted #99a3b5">'+badge(label,'purple')+'</span>';}
+function sessionReadiness(s){
+  const st=computeStatus(s);
+  if(st==='Cancelled')return{label:'Cancelled',tone:'gray'};
+  const hasMat=s.materialIds&&s.materialIds.length;const hasTk=s.takeawayIds&&s.takeawayIds.length;
+  if(['Live','Completed'].includes(st))return hasMat?{label:'Ready',tone:'green'}:{label:'Material pending',tone:'red'};
+  if(hasMat&&hasTk)return{label:'Ready',tone:'green'};
+  if(!hasMat)return{label:'Material pending',tone:'red'};
+  return{label:'Takeaway pending',tone:'amber'};
+}
+function relevanceMismatch(s,p){if(!p)return null;const r=[];if(p.language!==s.language)r.push('language');const bu=deriveBU(s.id);if(bu!=='-'&&bu!=='All'&&bu!=='Multi-BU'&&p.bu!==bu)r.push('BU');const c=new Set(db.topicMap.filter(t=>t.topic===s.topic).map(t=>String(t.cohortId)));if(!c.has(String(p.cohortId)))r.push('topic');return r.length?r.join(', '):null;}
+function badge(t,tone){const m={Scheduled:'blue','Waiting Room':'amber',Live:'green',Completed:'gray',Cancelled:'red',Assigned:'blue','Manually added':'purple','Walk-in registered':'teal','Walk-in joined':'teal',Active:'green',Archived:'gray'};return '<span class="badge b-'+(tone||m[t]||'gray')+'">'+esc(t)+'</span>';}
+function initials(n){return (n||'?').replace(/\(.*\)/,'').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
+function personName(n){const m=(n||'').match(/\(([^)]+)\)/);return m?m[1]:(n||'').replace(/\s*\(.*\)/,'');}
+
+const ICONS={
+ dashboard:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',
+ upload:'<path d="M12 15V3M8 7l4-4 4 4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
+ sessions:'<rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/>',
+ library:'<path d="M4 5a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2z"/><path d="M8 3v18"/>',
+ analytics:'<path d="M5 20V10M12 20V4M19 20v-7"/><path d="M3 20h18"/>',
+ team:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a3 3 0 0 1 0 5M20.5 20a5.5 5.5 0 0 0-3.5-5.1"/>',
+ bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 6.5 2.5 6.5H3.5S6 15 6 9"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+ activity:'<path d="M3 12h4l2.5 7 5-15L17 12h4"/>',
+ trainer:'<rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M12 16v4M8 20h8"/>',
+ trainings:'<path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 10.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-5.5"/>',
+ available:'<circle cx="12" cy="12" r="9"/><path d="m15 9-2.2 5.2L8 16l2-5 5-2Z"/>',
+ past:'<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/>',
+ movement:'<path d="M4 7h11M11 3l4 4-4 4"/><path d="M20 17H9M13 21l-4-4 4-4"/>'
+};
+function icon(k,sz){sz=sz||18;return '<svg viewBox="0 0 24 24" width="'+sz+'" height="'+sz+'" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[k]||'')+'</svg>';}
+
+/* ===================== seed ===================== */
+function buildSeed(){
+  const N=new Date(),day=86400000;
+  const at=(o,hh,mm)=>{const d=new Date(N.getTime()+o*day);d.setHours(hh,mm,0,0);return d.toISOString();};
+  const trainers=[{id:'TR1',name:'Trainer 1 (Meera Nair)'},{id:'TR2',name:'Trainer 2 (Arun Rao)'},{id:'TR3',name:'Trainer 3 (Sara Khan)'},{id:'TR4',name:'Trainer 4 (Vijay Menon)'}];
+  const users=[{id:'U_SA',name:'Priya Sharma',role:'Super Admin'},{id:'U_TA',name:'Deepak Verma',role:'Training Admin'},{id:'TR1',name:'Trainer 1 (Meera Nair)',role:'Trainer'},{id:'P_R',name:'Rajesh Verma',role:'Partner',partnerCode:'IP4936'}];
+  const cohorts=[{id:23,name:'Low Renewal Cross Sell Specialists',bu:'Motor'},{id:57,name:'Legacy High NOP',bu:'Life'},{id:60,name:'Low App Engaged, Pro Cross Sell',bu:'Life'},{id:90,name:'Early Stage Starters',bu:'Health'},{id:100,name:'Newly Onboarded',bu:'Health'}];
+  const topicMap=[{cohortId:23,topic:'Topic 1'},{cohortId:57,topic:'Topic 2'},{cohortId:60,topic:'Topic 3'},{cohortId:90,topic:'Topic 4'},{cohortId:100,topic:'Topic 5'},{cohortId:60,topic:'Topic 5'},{cohortId:90,topic:'Topic 5'}];
+  const partners=[
+   {code:'IP4932',name:'Amit Kumar',language:'Hindi',bu:'Motor',cohortId:23,state:'Delhi'},
+   {code:'IP4933',name:'Suresh Iyer',language:'Tamil',bu:'Life',cohortId:57,state:'Tamil Nadu'},
+   {code:'IP4934',name:'Ravi Teja',language:'Telugu',bu:'Motor',cohortId:23,state:'Telangana'},
+   {code:'IP4935',name:'Kiran Gowda',language:'Kannada',bu:'Life',cohortId:57,state:'Karnataka'},
+   {code:'IP4936',name:'Rajesh Verma',language:'Hindi',bu:'Life',cohortId:60,state:'Uttar Pradesh'},
+   {code:'IP4937',name:'Deepa Nair',language:'Hindi',bu:'Health',cohortId:90,state:'Kerala'},
+   {code:'IP4938',name:'Lakshmi Rao',language:'Kannada',bu:'Life',cohortId:60,state:'Karnataka'},
+   {code:'IP4939',name:'Anita Shetty',language:'Kannada',bu:'Life',cohortId:60,state:'Karnataka'},
+   {code:'IP4940',name:'Manoj Pillai',language:'Hindi',bu:'Health',cohortId:100,state:'Bihar'},
+   {code:'IP4941',name:'Sanjay Dubey',language:'Hindi',bu:'Motor',cohortId:23,state:'Madhya Pradesh'},
+   {code:'IP4942',name:'Priyanka Das',language:'English',bu:'Life',cohortId:57,state:'West Bengal'},
+   {code:'IP4943',name:'Karthik S',language:'Tamil',bu:'Health',cohortId:90,state:'Tamil Nadu'},
+   {code:'IP4944',name:'Neha Joshi',language:'Hindi',bu:'Health',cohortId:100,state:'Rajasthan'},
+   {code:'IP4945',name:'Farhan Ali',language:'Telugu',bu:'Health',cohortId:90,state:'Telangana'}];
+  let S=[];const mk=(topic,language,tr,o,hh,mm,dur,wa,live)=>({id:uid('S'),topic,language,trainerId:tr,startISO:at(o,hh,mm),durationMin:dur,walkinAllowed:wa,status:'Scheduled',forceLive:!!live,recordingEnabled:true,materialIds:[],takeawayIds:[],recorded:false});
+  S.push(mk('Topic 1','Hindi','TR1',-6,12,0,60,false));
+  S.push(mk('Topic 2','Tamil','TR2',-5,12,0,60,true));
+  S.push(mk('Topic 3','Kannada','TR1',-3,15,0,45,false));
+  S.push(mk('Topic 5','Hindi','TR3',-2,12,0,60,true));
+  S.push(mk('Topic 4','Hindi','TR3',0,9,0,60,false,true));       // LIVE
+  S.push(mk('Topic 3','Hindi','TR1',0,15,0,45,true,true));        // LIVE (trainer TR1 + partner Rajesh)
+  S.push(mk('Topic 1','Kannada','TR1',2,16,0,60,false));
+  S.push(mk('Topic 2','English','TR3',3,12,0,60,true));
+  S.push(mk('Topic 5','Telugu','TR2',5,16,0,60,true));
+  S.push(mk('Topic 4','Tamil','TR4',6,12,0,60,false));
+  S.push(mk('Topic 2','Hindi','TR3',2,11,0,60,true));            // discoverable walk-in (Hindi)
+  S.push(mk('Topic 1','Hindi','TR1',4,14,0,60,true));            // discoverable walk-in (Hindi)
+  S.push(mk('Topic 2','Hindi','TR3',0,10,0,60,true,true));       // LIVE walk-in, open in Discover
+  const material=(t,bu,l,ty,tp,au,age,v,st)=>({id:uid('M'),title:t,bu,language:l,type:ty,topic:tp||t,author:au,uploadedISO:at(-age,10,0),updatedISO:at(-age+((v||1)-1)*2,11,0),lastUsedISO:at(-Math.max(0,age-3),9,0),version:v||1,status:st||'Active',format:'PPTX',uploadedBy:'Deepak Verma'});
+  const materials=[
+   material('Motor Renewal Playbook','Motor','Hindi','Session content','Topic 1','Content Team',40,2),
+   material('Motor Renewal Takeaway','Motor','Hindi','Takeaway','Topic 1','Content Team',40),
+   material('Legacy NOP Deck','Life','Tamil','Session content','Topic 2','Sara Khan',30),
+   material('Cross Sell Guide','Life','Kannada','Session content','Topic 3','Content Team',25),
+   material('Cross Sell Guide','Life','Hindi','Session content','Topic 3','Content Team',25),
+   material('Early Stage Starter Kit','Health','Hindi','Both','Topic 4','Vijay Menon',20,3),
+   material('Onboarding Essentials','Health','Hindi','Session content','Topic 5','Content Team',15),
+   material('Onboarding Takeaway PDF','Health','Hindi','Takeaway','Topic 5','Content Team',15),
+   material('Old Motor Script (retired)','Motor','Hindi','Session content','Topic 1','Content Team',90,1,'Archived')];
+  const D={meta:{version:'2.0'},users,trainers,cohorts,topicMap,partners,sessions:S,materials,enrolments:[],attendance:[],feedback:[],notifications:[],audit:[],cohortVersions:[{v:1,at:at(-45,9,0),by:'Deepak Verma'}]};
+  db=D;
+  S.forEach(s=>eligible(s.topic,s.language).forEach(p=>D.enrolments.push({id:uid('E'),sessionId:s.id,partnerCode:p.code,source:'Assigned',enrolledISO:at(-7,10,0)})));
+  const wf=S.find(s=>s.walkinAllowed&&new Date(s.startISO)>N);if(wf)D.enrolments.push({id:uid('E'),sessionId:wf.id,partnerCode:'IP4942',source:'Walk-in registered',enrolledISO:at(-1,14,0)});
+  const pw=S.find(s=>s.walkinAllowed&&new Date(s.startISO)<N);if(pw)D.enrolments.push({id:uid('E'),sessionId:pw.id,partnerCode:'IP4944',source:'Walk-in joined',enrolledISO:at(-5,12,5)});
+  const lv=S[4];D.enrolments.push({id:uid('E'),sessionId:lv.id,partnerCode:'IP4940',source:'Manually added',enrolledISO:at(0,8,30)});
+  S.forEach(s=>{const sc=materials.find(m=>m.status==='Active'&&(m.type==='Session content'||m.type==='Both')&&m.topic===s.topic&&m.language===s.language);const tk=materials.find(m=>m.status==='Active'&&(m.type==='Takeaway'||m.type==='Both')&&m.topic===s.topic);if(sc)s.materialIds=[sc.id];if(tk)s.takeawayIds=[tk.id];});
+  S.forEach(s=>{const st=new Date(s.startISO).getTime();const past=st+s.durationMin*60000<N.getTime()&&!s.forceLive;if(!past)return;s.recorded=s.recordingEnabled;
+    sessEnr(s.id).forEach(e=>{if(Math.random()<0.2)return;const ap=60+Math.floor(Math.random()*45);const dur=Math.min(s.durationMin,Math.round(Math.min(ap,100)/100*s.durationMin));const comp=dur>=0.75*s.durationMin;
+      const joinOff=Math.floor(Math.random()*3),reconnects=Math.random()>0.8?1:0,joinISO=new Date(st+joinOff*60000).toISOString(),exitISO=new Date(st+(joinOff+dur)*60000).toISOString();
+      D.attendance.push({id:uid('A'),sessionId:s.id,partnerCode:e.partnerCode,durationMin:dur,completed:comp,source:e.source,joinISO,exitISO,reconnects});
+      if(Math.random()>0.3)D.feedback.push({id:uid('F'),sessionId:s.id,partnerCode:e.partnerCode,overall:3+Math.floor(Math.random()*3),trainer:4+(Math.random()>.5?1:0),content:3+Math.floor(Math.random()*3),recommend:Math.random()>.25,comment:''});});});
+  const nt=(a,t,c,sid,o)=>D.notifications.push({id:uid('N'),audience:a,trigger:t,channel:c,sessionId:sid,atISO:at(o,9,0),status:'Delivered'});
+  nt('Partner','Session scheduled','WhatsApp, Email, Push',S[6].id,-3);nt('Trainer','Session scheduled','Email, Push',S[6].id,-3);nt('Partner','Reminder — 1 day to go','WhatsApp, Push',S[5].id,-1);nt('Partner','Walk-in enrolment confirmed','Email, Push',(wf||S[8]).id,-1);nt('Trainer','You have a session starting soon','Email, Push',S[5].id,0);
+  D.audit.push({id:uid('AU'),action:'Cohort version application',detail:'Version 1 applied to all sessions',by:'Deepak Verma',atISO:at(-45,9,5)});
+  D.audit.push({id:uid('AU'),action:'Manual enrolment change',detail:'Added IP4940 to a live session',by:'Deepak Verma',atISO:at(0,8,30)});
+  if(S[6])S[6].recentlyAdded=true;if(S[11])S[11].recentlyAdded=true;if(S[12])S[12].recentlyAdded=true;
+  // enrich for Training Admin analytics
+  const RMS=['Gagan Khurana','Atul Sharma','Anuj Rana'];
+  D.partners.forEach((p,i)=>{p.rm=RMS[i%RMS.length];});
+  D.notifStats=[];D.uploadHistory=[];
+  D.sessions.forEach(s=>{const st=new Date(s.startISO).getTime();const past=st+s.durationMin*60000<N.getTime()&&!s.forceLive;
+    s.recordingViewable=true;
+    s.transcriptStatus=past?(Math.random()>0.2?'Available':'Processing'):(s.forceLive?'Live capture':'Not started');
+    const state2=computeStatus(s);const base=sessEnr(s.id).length||6;
+    const CAD=['On schedule','Reminder — 1 day','Reminder — 1 hour','Live starting','Post-session takeaway'];
+    CAD.forEach(cad=>{if(cad.indexOf('Post')===0&&state2!=='Completed')return;if(cad.indexOf('Live')===0&&!['Live','Completed'].includes(state2))return;if((cad.indexOf('Reminder — 1 hour')===0)&&state2==='Scheduled')return;
+      const failed=Math.random()>0.65?1:0,opted=Math.random()>0.75?1:0,delivered=Math.max(0,base-failed-opted);
+      D.notifStats.push({sessionId:s.id,cadence:cad,delivered,failed,opted});});
+    D.audit.push({id:uid('AU'),action:'Session created',detail:s.topic+' · '+s.language+' scheduled',by:'Deepak Verma',atISO:at(-40,11,0),sessionId:s.id});});
+  D.uploadHistory=[
+    {kind:'Cohort upload',atISO:at(-45,9,0),by:'Deepak Verma',added:14,removed:0,updated:0,buShifts:[],langSwaps:[],cohortCount:5,trainingsCreated:0,summary:'Initial partner and cohort load'},
+    {kind:'Topic mapping',atISO:at(-44,10,0),by:'Deepak Verma',added:7,removed:0,updated:0,buShifts:[],langSwaps:[],cohortCount:5,trainingsCreated:0,summary:'Mapped 5 cohorts to topics'},
+    {kind:'Schedule upload',atISO:at(-40,11,0),by:'Deepak Verma',added:0,removed:0,updated:0,buShifts:[],langSwaps:[],cohortCount:0,trainingsCreated:10,summary:'Published 10 sessions'},
+    {kind:'Cohort upload',atISO:at(-20,9,30),by:'Deepak Verma',added:2,removed:1,updated:3,buShifts:['IP4938: Motor → Life','IP4940: Life → Health'],langSwaps:['IP4939: Hindi → Kannada'],cohortCount:5,trainingsCreated:0,summary:'Refresh: 2 added, 1 removed, 3 updated'},
+  ];
+  // Cohort movement history: one timeline entry per partner per cohort upload, ending at their current cohort/BU/language
+  const cohById=id=>(D.cohorts.find(c=>c.id===id)||{});
+  const upDates=[at(-45,9,0),at(-20,9,30)];   // the two cohort-upload dates, ascending
+  const refreshChanges={
+    'IP4938':{fromCohort:23,fromBU:'Motor',fromLang:'Kannada'},   // moved Motor->Life cohort 23->60
+    'IP4940':{fromCohort:60,fromBU:'Life',fromLang:'Hindi'},      // moved Life->Health cohort 60->100
+    'IP4939':{fromCohort:60,fromBU:'Life',fromLang:'Hindi'},      // language swap Hindi->Kannada
+    'IP4945':{fromCohort:100,fromBU:'Health',fromLang:'Telugu'},  // cohort refinement 100->90
+  };
+  D.cohortMovements={};
+  D.partners.forEach(p=>{
+    const rows=[];const ch=refreshChanges[p.code];
+    if(ch){
+      rows.push({atISO:upDates[0],uploadKind:'Cohort upload',action:'Added',cohortId:ch.fromCohort,cohortName:cohById(ch.fromCohort).name||('Cohort '+ch.fromCohort),bu:ch.fromBU,language:ch.fromLang,note:'Initial cohort load'});
+      const moved=ch.fromCohort!==p.cohortId, buShift=ch.fromBU!==p.bu, langSwap=ch.fromLang!==p.language;
+      const notes=[];
+      if(moved)notes.push('Cohort '+ch.fromCohort+' → '+p.cohortId);
+      if(buShift)notes.push('BU '+ch.fromBU+' → '+p.bu);
+      if(langSwap)notes.push('Language '+ch.fromLang+' → '+p.language);
+      rows.push({atISO:upDates[1],uploadKind:'Cohort upload',action:moved?'Moved':'Updated',cohortId:p.cohortId,cohortName:cohById(p.cohortId).name||('Cohort '+p.cohortId),bu:p.bu,language:p.language,note:notes.join(' · ')||'Reconfirmed'});
+    } else {
+      rows.push({atISO:upDates[0],uploadKind:'Cohort upload',action:'Added',cohortId:p.cohortId,cohortName:cohById(p.cohortId).name||('Cohort '+p.cohortId),bu:p.bu,language:p.language,note:'Initial cohort load'});
+      rows.push({atISO:upDates[1],uploadKind:'Cohort upload',action:'No change',cohortId:p.cohortId,cohortName:cohById(p.cohortId).name||('Cohort '+p.cohortId),bu:p.bu,language:p.language,note:'Reconfirmed, no change'});
+    }
+    D.cohortMovements[p.code]=rows;
+  });
+  return D;
+}
+
+/* ===================== state ===================== */
+let db=null;buildSeed();
+const state={role:null,user:null,route:'#/',form:{},upload:null,modal:null,classroom:null,sort:{}};
+let ticker=null;
+function toast(msg,kind){const el=document.createElement('div');el.className='toast '+(kind||'ok');el.textContent=msg;document.getElementById('toasts').appendChild(el);setTimeout(()=>el.remove(),3200);}
+function nav(r){state.route=r;render();}
+function harvest(){document.querySelectorAll('[data-model]').forEach(el=>{state.form[el.dataset.model]=el.type==='checkbox'?el.checked:el.value;});}
+const fv=k=>state.form[k]!==undefined?state.form[k]:'';
+function audit(a,d,sid){db.audit.unshift({id:uid('AU'),action:a,detail:d,by:state.user?state.user.name:'System',atISO:new Date().toISOString(),sessionId:sid});}
+function logN(a,t,c,sid){db.notifications.unshift({id:uid('N'),audience:a,trigger:t,channel:c,sessionId:sid,atISO:new Date().toISOString(),status:'Sent'});}
+function liveSessions(){return db.sessions.filter(s=>computeStatus(s)==='Live');}
+function relevantLive(){const L=liveSessions();if(state.role==='Partner'){const code=myCode();return L.filter(s=>db.enrolments.some(e=>e.sessionId===s.id&&e.partnerCode===code));}if(state.role==='Trainer')return L.filter(s=>s.trainerId===state.user.id);return L;}
+
+/* ===================== actions ===================== */
+function handle(act,el){harvest();const d=el.dataset;const p=act.split(':');const cmd=p[0],arg=p[1];
+  switch(cmd){
+    case'login':{const u=db.users.find(x=>x.role===arg)||{id:'x',name:arg,role:arg};state.role=arg;state.user=u;state.route=arg==='Trainer'?'#/trainer':arg==='Partner'?'#/partner':'#/admin';render();break;}
+    case'logout':state.role=null;state.user=null;state.route='#/';render();break;
+    case'reset':buildSeed();toast('Demo data reset');render();break;
+    case'apply-filter':render();break;
+    case'mv-open':state.form.mvsel=arg;render();break;
+    case'mv-clear':state.form.mvsel='';state.form.mvq='';render();break;
+    case'mv-export':{const p=partner(arg);const rows=(db.cohortMovements[arg]||[]);const hdr=['Upload date','Activity','Cohort ID','Cohort name','BU','Language','What changed'];dl('cohort_movement_'+arg+'.csv',[hdr.join(',')].concat(rows.map(r=>[fmtDT(r.atISO),r.action,r.cohortId,'"'+r.cohortName+'"',r.bu,r.language,'"'+r.note+'"'].join(','))).join('\n'));toast('Movement exported for '+arg);break;}
+    case'dl-template':dl(arg+'_template.csv',TEMPLATES[arg].join(',')+'\n');break;
+    case'upload-apply':{const v=state.upload.results.filter(r=>r.ok).map(r=>r.row);applyUpload(state.upload.kind,v);state.upload=null;render();break;}
+    case'upload-discard':state.upload=null;render();break;
+    case'upl-history':state.modal={type:'uplhistory'};renderModal();break;
+    case'upload-errfile':{const u=state.upload;if(!u)break;const bad=u.results.filter(r=>!r.ok);const cols=TEMPLATES[u.kind];dl(u.kind+'_errors.csv',[cols.concat('error').join(',')].concat(bad.map(r=>cols.map(c=>'"'+String(r.row[c]||'')+'"').concat('"'+r.errors.join('; ')+'"').join(','))).join('\n'));toast('Error file downloaded');break;}
+    case'manage':openManage(arg);break;
+    case'mtab':state.modal.tab=arg;renderModal();break;
+    case'closeModal':state.modal=null;renderModal();break;
+    case'add-single':addSingle();break;
+    case'add-override':addSingle(true);break;
+    case'add-cancelwarn':state.modal.warn=null;renderModal();break;
+    case'rm-toggle':{const s=state.modal.sel;const i=s.indexOf(arg);if(i>=0)s.splice(i,1);else s.push(arg);renderModal();break;}
+    case'rm-bulk':{state.modal.sel.forEach(c=>removePartner(state.modal.id,c));toast(state.modal.sel.length+' partner(s) removed');state.modal.sel=[];renderModal();render();break;}
+    case'toggle-walkin':{const s=db.sessions.find(x=>x.id===state.modal.id);s.walkinAllowed=!s.walkinAllowed;audit('Session edit','Walk-in '+(s.walkinAllowed?'opened':'closed')+' for '+s.topic,s.id);toast('Walk-in '+(s.walkinAllowed?'opened':'closed'));renderModal();break;}
+    case'substitute':{const s=db.sessions.find(x=>x.id===state.modal.id);const t=fv('subTrainer')||s.trainerId;const old=s.trainerId;s.trainerId=t;audit('Trainer substitution',s.topic+': '+((trainer(old)||{}).name||old)+' → '+((trainer(t)||{}).name||t),s.id);logN('Trainer','You have been assigned a session','Email, Push',s.id);toast('Trainer updated');renderModal();break;}
+    case'toggle-rec':{const s=db.sessions.find(x=>x.id===state.modal.id);s.recordingViewable=!s.recordingViewable;audit('Recording access',(s.recordingViewable?'Enabled':'Disabled')+' partner recording access',s.id);toast('Recording access '+(s.recordingViewable?'enabled':'disabled'));renderModal();break;}
+    case'monitor':state.modal=null;state.classroom={id:arg,mode:'monitor',slide:1,rec:true,muted:true,hand:false,chat:[{who:'System',text:'Monitoring session (read-only).'}],trans:[],tab:'people'};nav('#/classroom');break;
+    case'sess-perf':state.modal={type:'sessperf',id:arg};renderModal();break;
+    case'save-manage-mat':{const s=db.sessions.find(x=>x.id===state.modal.id);s.materialIds=state.modal.mat.slice();s.takeawayIds=state.modal.tk.slice();audit('Material updated','Session material updated',s.id);toast('Material saved to session');break;}
+    case'reschedule':{const v=fv('resch');if(!v){toast('Pick a date & time','err');break;}const s=db.sessions.find(x=>x.id===state.modal.id);s.startISO=new Date(v).toISOString();audit('Date/time reschedule',s.topic+' moved',s.id);logN('Partner','Your session has a new time','WhatsApp, Email, Push',s.id);logN('Trainer','Session time updated','Email, Push',s.id);toast('Rescheduled and everyone notified');renderModal();render();break;}
+    case'cancel':{const r=fv('cancelReason');if(!r){toast('Add a short reason','err');break;}const s=db.sessions.find(x=>x.id===state.modal.id);s.status='Cancelled';s.forceLive=false;s.cancelReason=r;audit('Session cancellation','Cancelled '+s.topic+': '+r,s.id);logN('Partner','A session was cancelled','WhatsApp, Email, Push',s.id);logN('Trainer','A session was cancelled','Email, Push',s.id);toast('Session cancelled');state.modal=null;renderModal();render();break;}
+    case'repo-add':state.modal={type:'addmat',step:1,files:[],same:true,shared:{bu:'Life',language:'Hindi',type:'Session content',topic:'',author:''},perFile:[]};renderModal();break;
+    case'addmat-same':state.modal.same=el.checked;renderModal();break;
+    case'addmat-save':saveMaterials();break;
+    case'archive':{const m=db.materials.find(x=>x.id===arg);m.status=m.status==='Active'?'Archived':'Active';audit('Content library change',(m.status==='Archived'?'Archived':'Restored')+' "'+m.title+'"');toast(m.status==='Archived'?'Moved to archive':'Restored');render();break;}
+    case'export':exportCsv(arg);break;
+    case'create-user':{const n=fv('newUserName');const emp=(fv('newUserEmp')||'').trim();const email=(fv('newUserEmail')||'').trim();const r=fv('newUserRole')||'Training Admin';if(!n){toast('Enter a name','err');break;}if(!emp){toast('Enter an emp code','err');break;}if(!email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast('Enter a valid email','err');break;}const id=uid('U');db.users.push({id,name:n,empCode:emp,email,role:r});if(r==='Trainer')db.trainers.push({id,name:n});audit('User creation','Created '+r+': '+n+' ('+emp+')');toast(r+' added');state.form.newUserName='';state.form.newUserEmp='';state.form.newUserEmail='';render();break;}
+    case'prepare':openPrepare(arg);break;
+    case'mat-toggle':{const s=state.modal;const list=d.slot==='content'?s.mat:s.tk;const i=list.indexOf(arg);if(i>=0)list.splice(i,1);else list.push(arg);renderModal();break;}
+    case'save-materials':{const s=db.sessions.find(x=>x.id===state.modal.id);s.materialIds=state.modal.mat.slice();s.takeawayIds=state.modal.tk.slice();toast('Material saved to session');state.modal=null;renderModal();render();break;}
+    case'enter-class':state.modal=null;state.classroom={id:arg,mode:d.mode,slide:1,rec:false,muted:true,hand:false,chat:[{who:'System',text:'Session started. Welcome!'}],trans:[],tab:'chat'};nav('#/classroom');break;
+    case'slide':{const s=state.classroom;s.slide=Math.max(1,Math.min(8,s.slide+(arg==='next'?1:-1)));render();break;}
+    case'rec':{const s=state.classroom;s.rec=!s.rec;if(s.rec)s.chat.push({who:'System',text:'Recording started — participants notified.'});const ss=db.sessions.find(x=>x.id===s.id);if(ss)ss.recorded=s.rec;render();break;}
+    case'mute':state.classroom.muted=!state.classroom.muted;render();break;
+    case'hand':{const s=state.classroom;s.hand=!s.hand;s.chat.push({who:'System',text:state.user.name+(s.hand?' raised':' lowered')+' hand'});render();break;}
+    case'chat-send':{const v=fv('chatMsg');if(!v||!v.trim())break;state.classroom.chat.push({who:state.user.name,text:v});state.form.chatMsg='';render();break;}
+    case'class-tab':state.classroom.tab=arg;render();break;
+    case'end-class':{if(ticker){clearInterval(ticker);ticker=null;}toast('Session ended');state.classroom=null;nav(state.role==='Partner'?'#/partner/past':'#/trainer');break;}
+    case'leave-class':{if(ticker){clearInterval(ticker);ticker=null;}const c=state.classroom;if(c&&c.mode==='partner'){const code=myCode();const ss=db.sessions.find(x=>x.id===c.id);if(!db.attendance.find(a=>a.sessionId===c.id&&a.partnerCode===code))db.attendance.push({id:uid('A'),sessionId:c.id,partnerCode:code,durationMin:Math.round((ss&&ss.durationMin)||30),completed:true,source:'Walk-in joined'});state.classroom=null;state.modal={type:'feedback',id:c.id,fb:{overall:5,trainer:5,content:5,recommend:true,comment:''}};nav('#/partner');break;}state.classroom=null;nav(state.role==='Partner'?'#/partner':'#/trainer');break;}
+    case'enrol':{walkinEnrol(arg,myCode(),'Walk-in registered');toast('You are enrolled. We will remind you before it starts.');render();break;}
+    case'join-class':state.classroom={id:arg,mode:'partner',slide:1,rec:false,muted:true,hand:false,chat:[{who:'System',text:'You joined the session.'}],trans:[],tab:'chat'};nav('#/classroom');break;
+    case'feedback':state.modal={type:'feedback',id:arg,fb:{overall:5,trainer:5,content:5,recommend:true,comment:''}};renderModal();break;
+    case'star':state.modal.fb[d.k]=Number(arg);renderModal();break;
+    case'recommend':state.modal.fb.recommend=arg==='yes';renderModal();break;
+    case'submit-feedback':{const f=state.modal.fb;if(!f.overall||!f.trainer||!f.content||f.recommend===null){toast('Please complete all ratings','err');break;}f.comment=fv('fbComment');db.feedback=db.feedback.filter(x=>!(x.sessionId===state.modal.id&&x.partnerCode===myCode()));db.feedback.push({id:uid('F'),sessionId:state.modal.id,partnerCode:myCode(),overall:f.overall,trainer:f.trainer,content:f.content,recommend:f.recommend,comment:f.comment});toast('Thank you! Your feedback helps us improve.');state.modal=null;renderModal();render();break;}
+    case'sim-download':toast('Downloading your material…');break;
+    case'sim-recording':toast('Opening the recording…');break;
+    case'goto':nav(arg);break;
+    case'live-viewall':state.form.f_status='Live';nav('#/admin/sessions');break;
+    case'live-back':state.form.f_status='';state.form.f_bu='';state.form.f_lang='';state.form.f_text='';render();break;
+    case'livejump':{const L=relevantLive();if(!L.length)break;const s=L[0];if(state.role==='Trainer'){state.classroom={id:s.id,mode:'trainer',slide:1,rec:false,muted:true,hand:false,chat:[{who:'System',text:'Session started. Welcome!'}],trans:[],tab:'chat'};nav('#/classroom');}else if(state.role==='Partner'){state.classroom={id:s.id,mode:'partner',slide:1,rec:false,muted:true,hand:false,chat:[{who:'System',text:'You joined the session.'}],trans:[],tab:'chat'};nav('#/classroom');}else nav('#/admin/sessions');state.form.f_status=state.role==='Super Admin'||state.role==='Training Admin'?'Live':state.form.f_status;break;}
+    case'notif-open':state.modal={type:'notif'};renderModal();break;
+    case'sessdetail':openSessDetail(arg);break;
+  }
+}
+function myCode(){return (state.user&&state.user.partnerCode)||'IP4936';}
+function addSingle(o){const code=(fv('addCode')||'').trim();const s=db.sessions.find(x=>x.id===state.modal.id);const p=partner(code);
+  if(!p){toast('That partner code isn’t recognised','err');return;}
+  if(sessEnr(s.id).some(e=>e.partnerCode===code)){toast('This partner is already in the session','err');return;}
+  const mm=relevanceMismatch(s,p);if(mm&&!o){state.modal.warn={code,mm};renderModal();return;}
+  db.enrolments.push({id:uid('E'),sessionId:s.id,partnerCode:code,source:'Manually added',enrolledISO:new Date().toISOString()});
+  audit('Manual enrolment change','Added '+code+' to '+s.topic);logN('Partner','You’ve been added to a training','WhatsApp, Email, Push',s.id);logN('Trainer','Your session roster changed','Email, Push',s.id);
+  toast(p.name+' added');state.form.addCode='';state.modal.warn=null;renderModal();render();}
+function removePartner(sid,code){db.enrolments=db.enrolments.filter(e=>!(e.sessionId===sid&&e.partnerCode===code));const s=db.sessions.find(x=>x.id===sid);audit('Manual enrolment change','Removed '+code+' from '+(s&&s.topic));logN('Partner','A training was removed from your schedule','WhatsApp, Email, Push',sid);logN('Trainer','Your session roster changed','Email, Push',sid);}
+function walkinEnrol(sid,code,kind){if(!db.enrolments.some(e=>e.sessionId===sid&&e.partnerCode===code)){db.enrolments.push({id:uid('E'),sessionId:sid,partnerCode:code,source:kind,enrolledISO:new Date().toISOString()});if(kind==='Walk-in registered')logN('Partner','Enrolment confirmed','Email, Push',sid);}}
+function applyUpload(kind,rows){
+  const d=state.upload&&state.upload.delta;const cf=state.upload&&state.upload.conflicts||[];
+  if(kind==='cohorts'){let added=0;rows.forEach(r=>{const code=r['partner code'];if(!code)return;const ex=partner(code);const rec={code,name:ex?ex.name:code,language:r['partner language'],bu:r['BU'],cohortId:Number(r['cohort ID']),state:ex?ex.state:'-',rm:ex?ex.rm:'Gagan Khurana'};if(ex)Object.assign(ex,rec);else{db.partners.push(rec);added++;}if(!db.cohorts.find(c=>c.id===Number(r['cohort ID'])))db.cohorts.push({id:Number(r['cohort ID']),name:r['cohort name'],bu:r['BU']});});const v=db.cohortVersions.length+1;db.cohortVersions.unshift({v,at:new Date().toISOString(),by:state.user.name});audit('File upload','Cohort upload v'+v+' ('+rows.length+' rows, '+added+' new)');db.uploadHistory.push({kind:'Cohort upload',atISO:new Date().toISOString(),by:state.user.name,added:(d?d.added:added),removed:(d?d.removed:0),updated:(d?d.updated:0),buShifts:(d?d.buShifts:[]),langSwaps:(d?d.langSwaps:[]),cohortCount:db.cohorts.length,trainingsCreated:0,summary:rows.length+' rows saved'});toast(rows.length+' partner row(s) saved');}
+  else if(kind==='topics'){rows.forEach(r=>{const c=Number(r['cohort ID']),t=r['topic'];if(!c||!t)return;if(!db.topicMap.find(x=>x.cohortId===c&&x.topic===t))db.topicMap.push({cohortId:c,topic:t});});audit('File upload','Topic mapping ('+rows.length+' rows)');db.uploadHistory.push({kind:'Topic mapping',atISO:new Date().toISOString(),by:state.user.name,added:rows.length,removed:0,updated:0,buShifts:[],langSwaps:[],cohortCount:db.cohorts.length,trainingsCreated:0,summary:rows.length+' mappings saved'});toast(rows.length+' mapping(s) saved');}
+  else if(kind==='calendar'){let created=0;rows.forEach(r=>{const topic=r['topic'],language=r['language'];if(!topic||!language)return;const tr=db.trainers.find(t=>t.name.indexOf(r['trainer'])===0||t.id===r['trainer'])||db.trainers[0];const dt=new Date(r['date']+' '+r['time']);const s={id:uid('S'),topic,language,trainerId:tr.id,startISO:(isNaN(dt)?new Date():dt).toISOString(),durationMin:Number(r['scheduled duration'])||60,walkinAllowed:/^y/i.test((r['walk-in allowed']||'').trim()),status:'Scheduled',forceLive:false,recordingEnabled:true,recordingViewable:true,transcriptStatus:'Not started',materialIds:[],takeawayIds:[],recorded:false,recentlyAdded:true};db.sessions.push(s);created++;eligible(topic,language).forEach(p=>db.enrolments.push({id:uid('E'),sessionId:s.id,partnerCode:p.code,source:'Assigned',enrolledISO:new Date().toISOString()}));audit('Session created',topic+' · '+language+' scheduled',s.id);logN('Partner','A new training is on your schedule','WhatsApp, Email, Push',s.id);logN('Trainer','You have a new session','Email, Push',s.id);});audit('Session creation','Calendar upload created '+created+' sessions');db.uploadHistory.push({kind:'Schedule upload',atISO:new Date().toISOString(),by:state.user.name,added:0,removed:0,updated:0,buShifts:[],langSwaps:[],cohortCount:0,trainingsCreated:created,summary:created+' sessions published'});toast(created+' session(s) scheduled and partners added');}
+}
+function saveMaterials(){harvest();const m=state.modal;const files=m.files;
+  const payload=files.map((title,i)=>{const c=m.same?readChar('shared'):readChar('pf'+i);const dup=db.materials.find(x=>x.title.toLowerCase()===title.toLowerCase()&&x.bu===c.bu&&x.language===c.language&&x.type===c.type&&x.status==='Active');return {title,bu:c.bu,language:c.language,type:c.type,topic:c.topic,author:c.author,confirmUpdate:!!dup};});
+  const dups=payload.filter(p=>p.confirmUpdate);
+  if(dups.length&&!confirm(dups.length+' file(s) already exist with the same name, BU, language and type. Save them as a new version?')){payload.forEach(p=>p.confirmUpdate=false);}
+  let updated=0,addedN=0;
+  payload.forEach(f=>{const match=db.materials.find(x=>x.title.toLowerCase()===f.title.toLowerCase()&&x.bu===f.bu&&x.language===f.language&&x.type===f.type&&x.status==='Active');
+    if(match&&f.confirmUpdate){match.version++;match.updatedISO=new Date().toISOString();match.author=f.author||match.author;match.topic=f.topic||match.topic;audit('Content library change','Updated "'+match.title+'" to v'+match.version);updated++;}
+    else{db.materials.push({id:uid('M'),title:f.title,bu:f.bu,language:f.language,type:f.type,topic:f.topic||f.title,author:f.author||'',uploadedISO:new Date().toISOString(),updatedISO:new Date().toISOString(),lastUsedISO:null,version:1,status:'Active',format:'PPTX',uploadedBy:state.user.name});audit('Content library change','Added "'+f.title+'"');addedN++;}});
+  toast(addedN+' added'+(updated?', '+updated+' updated':''));state.modal=null;renderModal();render();}
+function readChar(pfx){return {bu:fv(pfx+'_bu')||'Life',language:fv(pfx+'_language')||'Hindi',type:fv(pfx+'_type')||'Session content',topic:fv(pfx+'_topic')||'',author:fv(pfx+'_author')||''};}
+function exportCsv(kind){let rows=[];
+  if(kind==='attendance'){rows=[['Session','Topic','Language','Partner','Source','Duration','Completed']];db.attendance.forEach(a=>{const s=db.sessions.find(x=>x.id===a.sessionId);rows.push([a.sessionId,s&&s.topic,s&&s.language,a.partnerCode,a.source,a.durationMin,a.completed?'Yes':'No'])});}
+  else if(kind==='feedback'){rows=[['Session','Partner','Overall','Trainer','Content','Recommend']];db.feedback.forEach(f=>rows.push([f.sessionId,f.partnerCode,f.overall,f.trainer,f.content,f.recommend?'Yes':'No']));}
+  else if(kind==='notification'){rows=[['Audience','Message','Channel','Status','At']];db.notifications.forEach(n=>rows.push([n.audience,n.trigger,n.channel,n.status,n.atISO]));}
+  else if(kind==='cohortdata'){rows=[TEMPLATES.cohorts];db.partners.forEach(p=>rows.push([p.code,p.language,p.bu,p.cohortId,(db.cohorts.find(c=>c.id===p.cohortId)||{}).name||'']));}
+  else if(kind==='sessionanalytics'){rows=[['Topic','Language','Invited','Joined','Joined invited','Joined walk-in','Completed','Completion %','Avg time spent','Drop-off %','Feedback','Trainer','Content','Recommend %','Recording']];insightsFilter().forEach(s=>{const M=sessionMetrics(s.id),f=feedbackAgg(s.id);rows.push([s.topic,s.language,M.invited,M.joined,M.joinedInv,M.joinedWk,M.completed,M.completionRate+'%',M.avgSpent,M.dropoff+'%',f.overall,f.trainer,f.content,f.n?f.recPct+'%':'-',recStatus(s)]);});}
+  else if(kind&&kind.indexOf('breakdown_')===0){const b=kind.slice(10);const d=dateDefaults();const from=fv('b_from')||d.from,to=fv('b_to')||d.to;const base=db.sessions.filter(s=>inRange(s.startISO,from,to));
+    if(b==='trainers'){rows=[['Trainer','Sessions','Attendance','Completed','Avg rating']];db.trainers.forEach(t=>{const ss=base.filter(s=>s.trainerId===t.id);if(!ss.length)return;const a=ss.flatMap(s=>att(s.id));const fb=ss.flatMap(s=>db.feedback.filter(f=>f.sessionId===s.id));rows.push([t.name.replace(/\s*\(.*\)/,''),ss.length,a.length,a.filter(x=>x.completed).length,fb.length?(fb.reduce((x,f)=>x+f.overall,0)/fb.length).toFixed(1):'-']);});}
+    else if(b==='languages'){rows=[['Language','Sessions','Invited','Joined','Completed']];LANGS.forEach(l=>{const ss=base.filter(s=>s.language===l);if(!ss.length)return;const a=ss.flatMap(s=>att(s.id));rows.push([l,ss.length,ss.reduce((t,s)=>t+sessEnr(s.id).length,0),a.length,a.filter(x=>x.completed).length]);});}
+    else if(b==='topics'){rows=[['Topic','Sessions','Invited','Joined','Completed']];[...new Set(base.map(s=>s.topic))].forEach(tp=>{const ss=base.filter(s=>s.topic===tp);const a=ss.flatMap(s=>att(s.id));rows.push([tp,ss.length,ss.reduce((t,s)=>t+sessEnr(s.id).length,0),a.length,a.filter(x=>x.completed).length]);});}
+    else{rows=[['Cohort','Sessions','Joined','Completed']];db.cohorts.forEach(c=>{const ss=base.filter(s=>sessionCohorts(s).includes(c.id));if(!ss.length)return;const a=ss.flatMap(s=>att(s.id));rows.push([c.name,ss.length,a.length,a.filter(x=>x.completed).length]);});}}
+  else{rows=[['Topic','Language','Trainer','Invited','Joined','Completed']];db.sessions.forEach(s=>rows.push([s.topic,s.language,s.trainerId,sessEnr(s.id).length,att(s.id).length,att(s.id).filter(a=>a.completed).length]));}
+  dl(kind+'_export.csv',rows.map(r=>r.map(c=>'"'+String(c==null?'':c)+'"').join(',')).join('\n'));toast('Export ready');}
+function onFile(el){const kind=el.dataset.file;const f=el.files[0];if(!f)return;const rd=new FileReader();
+  if(kind==='addmat'){const names=Array.from(el.files).map(x=>x.name.replace(/\.[^.]+$/,''));if(names.length){state.modal.files=names;state.modal.perFile=names.map(n=>({title:n}));state.modal.step=2;renderModal();}el.value='';return;}
+  if(kind==='addcsv'){rd.onload=()=>{const objs=toObjects(rd.result,['partner code']);const out=objs.map(o=>{const code=(o['partner code']||'').trim();const s=db.sessions.find(x=>x.id===state.modal.id);const p=partner(code);let status;if(!p)status='Not recognised';else if(sessEnr(s.id).some(e=>e.partnerCode===code))status='Already added';else{db.enrolments.push({id:uid('E'),sessionId:s.id,partnerCode:code,source:'Manually added',enrolledISO:new Date().toISOString()});audit('Manual enrolment change','Added '+code+' (CSV) to '+s.topic);logN('Trainer','Your session roster changed','Email, Push',s.id);status='Added';}return{code,status};});state.modal.csvRes=out;renderModal();};rd.readAsText(f);el.value='';return;}
+  rd.onload=()=>{const text=rd.result;const objs=toObjects(text,TEMPLATES[kind]);
+    const req=kind==='cohorts'?['partner code','partner language','BU','cohort ID','cohort name']:kind==='topics'?['cohort ID','topic']:['topic','language','date','time','trainer','scheduled duration'];
+    const seen={};let delta=null;const conflicts=[];
+    const results=objs.map((o,idx)=>{const errors=[];
+      req.forEach(r=>{if(!String(o[r]||'').trim())errors.push('Missing '+r);});
+      if(kind==='cohorts'){
+        if(o['partner code']&&!/^IP\d{3,}$/i.test(o['partner code'].trim()))errors.push('Invalid partner code');
+        if(o['BU']&&!BUS.includes(o['BU'].trim()))errors.push('Unknown BU');
+        if(o['partner language']&&!LANGS.includes(o['partner language'].trim()))errors.push('Unknown language');
+        const key=(o['partner code']||'').toLowerCase();if(key){if(seen[key])errors.push('Duplicate row');seen[key]=1;}
+      }
+      if(kind==='topics'){const key=(o['cohort ID']+'|'+o['topic']).toLowerCase();if(seen[key])errors.push('Duplicate mapping');seen[key]=1;}
+      if(kind==='calendar'){
+        const key=(o['topic']+'|'+o['language']+'|'+o['date']+'|'+o['time']).toLowerCase();if(seen[key])errors.push('Duplicate training');seen[key]=1;
+        const tkey=(o['trainer']+'|'+o['date']+'|'+o['time']).toLowerCase();if(seen['T'+tkey]){errors.push('Trainer double-booked');}seen['T'+tkey]=1;
+      }
+      return {row:o,ok:errors.length===0,errors};});
+    if(kind==='cohorts'){const codes=objs.map(o=>(o['partner code']||'').trim()).filter(Boolean);
+      let added=0,updated=0;const buShifts=[],langSwaps=[];
+      objs.forEach(o=>{const code=(o['partner code']||'').trim();if(!code)return;const ex=partner(code);if(!ex){added++;return;}
+        if(o['BU']&&ex.bu!==o['BU']){updated++;buShifts.push(code+': '+ex.bu+' → '+o['BU']);}
+        else if(o['partner language']&&ex.language!==o['partner language']){updated++;}
+        if(o['partner language']&&ex.language!==o['partner language'])langSwaps.push(code+': '+ex.language+' → '+o['partner language']);});
+      const fileCohorts=new Set(objs.map(o=>Number(o['cohort ID'])).filter(Boolean));
+      const removed=db.partners.filter(p=>fileCohorts.has(p.cohortId)&&!codes.includes(p.code)).length;
+      delta={added,removed,updated,buShifts,langSwaps};}
+    if(kind==='calendar'){results.forEach(r=>{if(r.errors.includes('Trainer double-booked'))conflicts.push('Trainer '+r.row['trainer']+' has more than one session at '+r.row['date']+' '+r.row['time']);if(r.errors.includes('Duplicate training'))conflicts.push('Duplicate training: '+r.row['topic']+' '+r.row['language']+' at '+r.row['date']+' '+r.row['time']);});}
+    state.upload={kind,results,delta,conflicts:[...new Set(conflicts)]};render();};rd.readAsText(f);el.value='';}
+
+/* ===================== render ===================== */
+const NAV={
+ 'Super Admin':{main:[['#/admin','Dashboard','dashboard'],['#/admin/uploads','Set up trainings','upload'],['#/admin/sessions','Sessions','sessions'],['#/admin/repository','Content Library','library'],['#/admin/analytics','Insights','analytics'],['#/admin/movement','Cohort Movement','movement']],manage:[['#/admin/users','Team & Access','team'],['#/admin/notifications','Notifications','bell'],['#/admin/audit','Activity Log','activity']]},
+ 'Training Admin':{main:[['#/admin','Dashboard','dashboard'],['#/admin/uploads','Set up trainings','upload'],['#/admin/sessions','Sessions','sessions'],['#/admin/repository','Content Library','library'],['#/admin/analytics','Insights','analytics']],manage:[['#/admin/notifications','Notifications','bell'],['#/admin/audit','Activity Log','activity']]},
+ 'Trainer':{main:[['#/trainer','Dashboard','dashboard'],['#/trainer/sessions','My Sessions','trainer'],['#/trainer/performance','My Performance','analytics']]},
+ 'Partner':{main:[['#/partner','My Trainings','trainings'],['#/partner/available','Discover','available'],['#/partner/past','Completed','past']]}
+};
+function render(){
+  if(ticker&&state.route!=='#/classroom'){clearInterval(ticker);ticker=null;}
+  if(!state.role){document.getElementById('root').innerHTML=loginView();wire();renderModal();return;}
+  const groups=NAV[state.role]||{main:[]};
+  const navItem=([to,l,ic])=>'<a data-nav="'+to+'" class="'+(state.route===to?'active':'')+'">'+icon(ic)+'<span>'+l+'</span></a>';
+  let navHtml='<div class="navlbl">Menu</div>'+groups.main.map(navItem).join('');
+  if(groups.manage)navHtml+='<div class="navlbl">Manage</div>'+groups.manage.map(navItem).join('');
+  const side='<aside class="sidebar"><div class="brand"><div class="mk">S</div><div><h1>Saksham</h1><small>Training, simplified</small></div></div><nav>'+navHtml+'</nav>'+
+    '<div class="foot"><div class="chip" data-act="logout" title="Switch role"><div class="av">'+initials(state.user.name)+'</div><div><div class="nm">'+esc(state.user.name)+'</div><div class="rl">'+esc(state.role)+'</div></div></div><button class="switch" data-act="logout">Switch role</button></div></aside>';
+  const live=relevantLive().length;
+  const dateStr=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  const top='<div class="topbar"><div class="date">'+dateStr+'</div><div class="rt">'+
+    (live?'<button class="livepill" data-act="livejump"><span class="livedot"></span>'+live+' live now</button>':'')+
+    '<button class="iconbtn" data-act="notif-open" title="Notifications">'+icon('bell',18)+'<span class="dot"></span></button>'+
+    '<div class="acct" data-act="logout" title="Switch role"><div class="av">'+initials(state.user.name)+'</div><div><div class="nm">'+esc(state.user.name.replace(/\s*\(.*\)/,''))+'</div><div class="id">'+esc(state.user.partnerCode||state.role)+'</div></div>'+icon('past',0)+'</div>'+
+    '</div></div>';
+  document.getElementById('root').innerHTML='<div class="app">'+side+'<div class="main">'+top+'<div class="content">'+page()+'</div></div></div>';
+  wire();renderModal();
+  if(state.route==='#/classroom'&&state.classroom&&state.classroom.mode==='trainer'&&!ticker)startTicker();
+}
+function page(){const r=state.route;
+  if(r==='#/classroom')return classroomView();
+  if(state.role==='Super Admin'||state.role==='Training Admin'){
+    if(r==='#/admin/uploads')return uploadsView();if(r==='#/admin/sessions')return sessionsView();if(r==='#/admin/repository')return repoView();if(r==='#/admin/analytics')return analyticsView();if(r==='#/admin/movement'&&state.role==='Super Admin')return movementView();if(r==='#/admin/users')return usersView();if(r==='#/admin/notifications')return notifView();if(r==='#/admin/audit')return auditView();return adminDash();}
+  if(state.role==='Trainer'){if(r==='#/trainer/sessions')return trainerSessions();if(r==='#/trainer/performance')return trainerPerformance();return trainerDash();}
+  if(state.role==='Partner'){if(r==='#/partner/available')return partnerAvailable();if(r==='#/partner/past')return partnerPast();return partnerMy();}
+  return '';
+}
+function wire(){
+  document.querySelectorAll('[data-act]').forEach(el=>el.onclick=e=>{e.stopPropagation();handle(el.dataset.act,el)});
+  document.querySelectorAll('[data-nav]').forEach(el=>el.onclick=()=>nav(el.dataset.nav));
+  document.querySelectorAll('[data-file]').forEach(el=>el.onchange=()=>onFile(el));
+  document.querySelectorAll('[data-refilter]').forEach(el=>el.onchange=()=>{harvest();render();});
+  document.querySelectorAll('[data-remodal]').forEach(el=>el.onchange=()=>{harvest();renderModal();});
+}
+function sortVal(c,r){
+  // explicit sort accessor wins; else derive from cell text
+  if(c.s){try{return c.s(r);}catch(e){return '';}}
+  const html=(()=>{try{return String(c.c(r));}catch(e){return '';}})();
+  const txt=html.replace(/<[^>]+>/g,'').trim();
+  return txt;
+}
+function inferNumeric(c,rows){
+  if(c.sortType)return c.sortType==='num';
+  // numeric if every non-empty value parses to a number (allow %, commas, min)
+  let seen=false;
+  for(const r of rows){let v=sortVal(c,r);if(v===''||v==null)continue;seen=true;const n=parseFloat(String(v).replace(/[,%]/g,''));if(isNaN(n))return false;}
+  return seen;
+}
+window.setSort=function(tid,idx){const cur=state.sort[tid];if(cur&&cur.idx===idx){cur.dir=cur.dir==='asc'?'desc':'asc';}else{state.sort[tid]={idx,dir:'asc'};}render();};
+function table(cols,rows,empty,tid){
+  if(!rows.length)return '<div class="empty"><div class="big">'+(empty?empty.t||empty:'Nothing here yet')+'</div>'+(empty&&empty.s?'<div>'+empty.s+'</div>':'')+'</div>';
+  tid=tid||('t_'+(cols.map(c=>c.h).join('|').replace(/[^a-z0-9]/gi,'').slice(0,40))+'_'+cols.length);
+  let disp=rows.slice();
+  const srt=state.sort[tid];
+  if(srt){const c=cols[srt.idx];if(c&&c.h&&c.h.trim()&&c.sortable!==false){const num=inferNumeric(c,rows);
+    disp.sort((a,b)=>{let va=sortVal(c,a),vb=sortVal(c,b);if(num){va=parseFloat(String(va).replace(/[,%]/g,''))||0;vb=parseFloat(String(vb).replace(/[,%]/g,''))||0;return va-vb;}return String(va).localeCompare(String(vb),undefined,{numeric:true,sensitivity:'base'});});
+    if(srt.dir==='desc')disp.reverse();}}
+  const head=cols.map((c,i)=>{const on=c.h&&c.h.trim()&&c.sortable!==false;
+    if(!on)return '<th>'+(c.h||'')+'</th>';
+    const active=srt&&srt.idx===i;const car=active?(srt.dir==='asc'?'▲':'▼'):'↕';
+    return '<th class="th-sort'+(active?' on':'')+'" onclick="setSort(\''+tid+'\','+i+')" title="Sort by '+esc(c.h)+'">'+c.h+'<span class="scaret">'+car+'</span></th>';}).join('');
+  return '<table class="tbl"><thead><tr>'+head+'</tr></thead><tbody>'+disp.map(r=>'<tr>'+cols.map(c=>'<td>'+c.c(r)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';}
+function kpi(l,v,s,ic){return '<div class="kpi"><div class="ic">'+icon(ic||'analytics',18)+'</div><div><div class="l">'+esc(l)+'</div><div class="v">'+esc(v)+'</div>'+(s?'<div class="s">'+esc(s)+'</div>':'')+'</div></div>';}
+function h2(t,s){return '<h2 class="pt">'+esc(t)+'</h2>'+(s?'<p class="psub">'+esc(s)+'</p>':'');}
+function greetTitle(pre,name,sub){return '<h2 class="pt">'+esc(pre)+' <span style="color:var(--brand)">'+esc(name)+'</span></h2>'+(sub?'<p class="psub">'+esc(sub)+'</p>':'');}
+function liveBanner(){const live=relevantLive();if(!live.length)return '';const s=live[0];const n=live.length;
+  let btn,title,sub;
+  if(state.role==='Partner'){btn='<button class="go" data-act="join-class:'+s.id+'">Join now</button>';}
+  else if(state.role==='Trainer'){btn='<button class="go" data-act="enter-class:'+s.id+'" data-mode="trainer">Enter</button>';}
+  else{const onSessions=state.route==='#/admin/sessions'&&fv('f_status')==='Live';btn=onSessions?'<button class="go" data-act="live-back">Back</button>':'<button class="go" data-act="live-viewall">View all</button>';}
+  if(n>1&&state.role!=='Partner'&&state.role!=='Trainer'){title=n+' sessions are live now';sub=live.map(x=>x.topic+' ('+x.language+')').join(' · ');}
+  else{title='Live now — '+s.topic+' ('+s.language+')';sub=((trainer(s.trainerId)||{}).name||'').replace(/\s*\(.*\)/,'')+' · '+sessEnr(s.id).length+' partners';}
+  return '<div class="livebanner"><div class="lt"><span class="ld"></span><div><b>'+esc(title)+'</b><div class="sub">'+esc(sub)+'</div></div></div>'+btn+'</div>';}
+
+/* ===================== LOGIN ===================== */
+function loginView(){
+  const roles=[['Super Admin','Full access, your team and every insight','dashboard'],['Training Admin','Set up trainings, run sessions and track results','sessions'],['Trainer','Prepare, go live and see how partners engage','trainer'],['Partner','Find trainings, join live and grow your skills','trainings']];
+  return '<div class="login"><div class="lcard"><div class="lbrand"><div class="mk" style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px">S</div><div><h1>Saksham</h1><div class="tag">Learning that grows with you</div></div></div>'+
+   '<p class="sub">Choose how you’d like to continue.</p>'+
+   roles.map(([r,d,ic])=>'<button class="rbtn" data-act="login:'+r+'"><div class="ri">'+icon(ic,20)+'</div><div><div class="rn">'+r+'</div><div class="rd">'+d+'</div></div><span class="arw">'+icon('available',18)+'</span></button>').join('')+
+   '<hr class="sep"><div style="display:flex;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12px">Comes preloaded with live and upcoming trainings.</span><button class="btn sm ghost" data-act="reset">Reset data</button></div></div></div>';
+}
+
+/* ===================== ADMIN ===================== */
+function adminDash(){
+  const S=db.sessions;const byS=k=>S.filter(s=>computeStatus(s)===k).length;
+  const today=S.filter(s=>new Date(s.startISO).toDateString()===new Date().toDateString());
+  const completed=db.attendance.filter(a=>a.completed).length;
+  const avg=db.feedback.length?(db.feedback.reduce((s,f)=>s+f.overall,0)/db.feedback.length).toFixed(1):'-';
+  const rows=S.filter(s=>['Live','Waiting Room'].includes(computeStatus(s))||new Date(s.startISO).toDateString()===new Date().toDateString()).sort((a,b)=>new Date(a.startISO)-new Date(b.startISO));
+  const hour=new Date().getHours();const greet=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
+  const anm=state.user.name.replace(/\s*\(.*\)/,'').split(' ')[0];
+  return greetTitle(greet+',',anm,'Here’s what’s happening across your trainings today.')+
+   liveBanner()+
+   '<div class="kpis" style="margin-bottom:6px">'+
+    kpi('Sessions today',today.length,'planned for today','sessions')+kpi('Live now',byS('Live'),'happening right now','trainer')+kpi('Coming up',byS('Scheduled'),'scheduled ahead','available')+kpi('Wrapped up',byS('Completed'),'done and processed','past')+
+    kpi('Partners engaged',db.enrolments.length,'across all sessions','team')+kpi('Show-up to finish',pct(completed,db.attendance.length)+'%','partners who completed','analytics')+kpi('Partner rating',avg,'out of 5','trainings')+kpi('Ready-to-use content',db.materials.filter(m=>m.status==='Active').length,'in your library','library')+
+   '</div><h3 class="sec">Today &amp; live</h3><div class="card"><div class="cb" style="padding:0">'+
+   table([{h:'Topic',c:r=>'<b>'+esc(r.topic)+'</b>'},{h:'Language',c:r=>esc(r.language)},{h:'BU',c:r=>buCell(r.id)},{h:'Time',c:r=>fmtDT(r.startISO),s:r=>new Date(r.startISO).getTime()},{h:'Trainer',c:r=>esc(((trainer(r.trainerId)||{}).name||'-').replace(/\s*\(.*\)/,''))},{h:'Partners',c:r=>sessEnr(r.id).length},{h:'Status',c:r=>badge(computeStatus(r)),s:r=>({Live:0,'Waiting Room':1,Scheduled:2,Completed:3,Cancelled:4}[computeStatus(r)]??9)}],rows,{t:'No sessions today',s:'Enjoy the calm, or schedule one from Set up trainings.'})+
+   '</div></div>';
+}
+function uploadsView(){
+  const tab=fv('uptab')||'cohorts';
+  const tabs='<div class="tabs">'+[['cohorts','Partners & Cohorts'],['topics','Topic Mapping'],['calendar','Schedule']].map(([k,l])=>'<button class="'+(tab===k?'active':'')+'" onclick="state.form.uptab=\''+k+'\';render()">'+l+'</button>').join('')+'</div>';
+  return h2('Set up trainings','Keep partners, topics and the schedule ready so trainings run smoothly.')+
+   '<div style="float:right;margin-top:-52px"><button class="btn" data-act="upl-history">'+icon('activity',15)+' &nbsp;Upload history</button></div>'+tabs+uploadPanel(tab);
+}
+function cohortSummary(){
+  const totalPartners=db.partners.length;const cohortCount=db.cohorts.length;
+  const created=db.uploadHistory.length?db.uploadHistory[db.uploadHistory.length-1].atISO:null;
+  const scheduled=db.sessions.filter(s=>computeStatus(s)!=='Cancelled').length;
+  const q=(fv('cohq')||'').toLowerCase();
+  const rows=db.partners.filter(p=>!q||(p.code+' '+p.name+' '+p.bu+' '+p.language+' '+((db.cohorts.find(c=>c.id===p.cohortId)||{}).name||'')).toLowerCase().includes(q));
+  const kpis='<div class="kpis" style="margin-bottom:14px">'+kpi('Total partners',totalPartners,'in your base','team')+kpi('Cohorts',cohortCount,'active','trainings')+kpi('Loaded on',created?fmtD(created):'-','last cohort load','activity')+kpi('Sessions scheduled',scheduled,'from these cohorts','sessions')+'</div>';
+  const search='<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><div class="searchwrap" style="flex:1;max-width:340px;margin:0">'+icon('available',16)+'<input class="in" placeholder="Search partner by code, name, BU…" data-model="cohq" data-refilter value="'+esc(fv('cohq'))+'"></div><button class="btn" data-act="export:cohortdata">Export current data</button></div>';
+  const tbl=table([{h:'Partner code',c:p=>'<b>'+esc(p.code)+'</b>'},{h:'Language',c:p=>esc(p.language)},{h:'BU',c:p=>esc(p.bu)},{h:'Cohort',c:p=>esc((db.cohorts.find(c=>c.id===p.cohortId)||{}).name||p.cohortId)},{h:'State',c:p=>esc(p.state)},{h:'RM',c:p=>esc(p.rm||'-')}],rows,'No partners match your search.');
+  return kpis+'<h3 class="sec">Loaded partner &amp; cohort mapping</h3>'+search+'<div class="card"><div class="cb" style="padding:0;max-height:420px;overflow:auto">'+tbl+'</div></div>';
+}
+function uploadPanel(kind){
+  const meta={cohorts:{t:'Partners & cohorts',n:'Keep your partner base current so the right people reach the right trainings.'},topics:{t:'Topic mapping',n:'Decide which training each cohort should get.'},calendar:{t:'Schedule',n:'Plan the calendar. Valid rows go live as sessions with partners added for you.'}};
+  const M=meta[kind];
+  let body='<p class="muted" style="margin-top:0">'+M.n+'</p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><label class="btn primary">Choose CSV file<input type="file" accept=".csv" data-file="'+kind+'" style="display:none"></label><button class="btn" data-act="dl-template:'+kind+'">Download blank template</button></div>';
+  const upcard='<div class="card"><div class="ch"><span>Upload '+M.t.toLowerCase()+'</span></div><div class="cb">'+body+uploadPreview(kind)+'</div></div>';
+  if(kind==='cohorts'&&!(state.upload&&state.upload.kind==='cohorts'))return upcard+cohortSummary();
+  return upcard;
+}
+function uploadPreview(kind){
+  if(!(state.upload&&state.upload.kind===kind))return '';
+  const res=state.upload.results;const ready=res.filter(r=>r.ok).length,bad=res.length-ready;
+  let html='<hr class="sep"><div class="stat"><div><div class="n">'+res.length+'</div><div class="l">rows found</div></div><div><div class="n" style="color:var(--green)">'+ready+'</div><div class="l">ready</div></div><div><div class="n" style="color:var(--red)">'+bad+'</div><div class="l">need a fix</div></div></div>';
+  if(state.upload.delta){const d=state.upload.delta;
+    const hov=arr=>arr&&arr.length?' title="'+esc(arr.join('\n'))+'"':'';
+    html+='<div class="kpis" style="margin-bottom:12px">'+
+     '<div class="kpi"><div class="ic" style="background:var(--green-s);color:var(--green)">'+icon('team',18)+'</div><div><div class="l">Partners added</div><div class="v">'+d.added+'</div></div></div>'+
+     '<div class="kpi"><div class="ic" style="background:var(--red-s);color:var(--red)">'+icon('team',18)+'</div><div><div class="l">Partners removed</div><div class="v">'+d.removed+'</div></div></div>'+
+     '<div class="kpi" '+hov(d.buShifts.concat(d.langSwaps))+'><div class="ic" style="background:var(--amber-s);color:var(--amber)">'+icon('team',18)+'</div><div><div class="l">Partners updated</div><div class="v">'+d.updated+'</div><div class="s">'+(d.buShifts.length+d.langSwaps.length?'hover for BU / language shifts':'no attribute shifts')+'</div></div></div>'+
+     '</div>';
+  }
+  if(state.upload.conflicts&&state.upload.conflicts.length){html+='<div class="card" style="box-shadow:none;border-color:#f0c98a;background:#fdf8ee;margin-bottom:12px"><div class="cb"><b style="color:var(--amber)">Please review:</b><ul style="margin:6px 0 0">'+state.upload.conflicts.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul></div></div>';}
+  html+=table(TEMPLATES[kind].map(hd=>({h:hd,c:r=>esc(r.row[hd]||'-')})).concat([{h:'',c:r=>r.ok?badge('Ready','green'):badge(r.errors.join('; '),'red')}]),res);
+  html+='<div class="btnrow" style="margin-top:14px"><button class="btn primary" data-act="upload-apply" '+(ready?'':'disabled')+'>Save '+ready+' row(s)</button>'+(bad?'<button class="btn" data-act="upload-errfile">Download error file</button><button class="btn" data-act="upload-apply">Skip invalid &amp; save</button>':'')+'<button class="btn" data-act="upload-discard">Back</button></div>';
+  return html;
+}
+function sessionsView(){
+  const f={status:fv('f_status'),bu:fv('f_bu'),lang:fv('f_lang'),text:fv('f_text')};
+  let rows=db.sessions.filter(s=>{const st=computeStatus(s);if(f.status&&st!==f.status)return false;if(f.lang&&s.language!==f.lang)return false;if(f.bu&&deriveBU(s.id)!==f.bu)return false;if(f.text&&!((s.topic+' '+s.language).toLowerCase().includes(f.text.toLowerCase())))return false;return true;}).sort((a,b)=>new Date(a.startISO)-new Date(b.startISO));
+  const sel=(k,label,opts)=>'<div class="field"><label class="f">'+label+'</label><select class="in" data-model="'+k+'" data-refilter><option value="">All</option>'+opts.map(o=>'<option '+(fv(k)===o?'selected':'')+'>'+o+'</option>').join('')+'</select></div>';
+  const filters='<div class="filters"><div class="field"><label class="f">Search</label><input class="in" data-model="f_text" data-refilter value="'+esc(fv('f_text'))+'" placeholder="Topic or language"></div>'+sel('f_status','Status',['Scheduled','Waiting Room','Live','Completed','Cancelled'])+sel('f_bu','BU',['Life','Health','Motor','Multi-BU','All'])+sel('f_lang','Language',LANGS)+'</div>';
+  return h2('Sessions','Track every training, manage who’s attending, and make changes when plans shift.')+liveBanner()+filters+
+   '<div class="card"><div class="cb" style="padding:0">'+table([{h:'Topic',c:r=>'<b>'+esc(r.topic)+'</b>'},{h:'Language',c:r=>esc(r.language)},{h:'BU',c:r=>buCell(r.id)},{h:'Date & time',c:r=>fmtDT(r.startISO),s:r=>new Date(r.startISO).getTime()},{h:'Trainer',c:r=>esc(((trainer(r.trainerId)||{}).name||'-').replace(/\s*\(.*\)/,''))},{h:'Partners',c:r=>sessEnr(r.id).length},{h:'Readiness',c:r=>{const k=sessionReadiness(r);return badge(k.label,k.tone);},s:r=>({'Material pending':0,'Takeaway pending':1,'Ready':2,'Cancelled':3}[sessionReadiness(r).label]??9)},{h:'Walk-in',c:r=>r.walkinAllowed?badge('Open','teal'):'<span class="muted">Closed</span>'},{h:'Status',c:r=>badge(computeStatus(r)),s:r=>({Live:0,'Waiting Room':1,Scheduled:2,Completed:3,Cancelled:4}[computeStatus(r)]??9)},{h:'',c:r=>{const st=computeStatus(r);const perf=st==='Scheduled'?'<button class="btn sm" disabled title="Available once the session has started" style="opacity:.45;cursor:not-allowed">Performance</button>':'<button class="btn sm" data-act="sess-perf:'+r.id+'">Performance</button>';return '<button class="btn sm" data-act="manage:'+r.id+'">Manage</button> '+perf;}}],rows,{t:'No sessions match',s:'Try clearing a filter.'})+'</div></div>';
+}
+function repoView(){
+  const f={text:fv('r_text'),bu:fv('r_bu'),lang:fv('r_lang'),type:fv('r_type'),status:fv('r_status')||'Active',sort:fv('r_sort')||'updated',dir:fv('r_dir')||'desc'};
+  let m=db.materials.filter(x=>{if(f.status&&x.status!==f.status)return false;if(f.bu&&x.bu!==f.bu)return false;if(f.lang&&x.language!==f.lang)return false;if(f.type&&x.type!==f.type)return false;if(f.text&&!x.title.toLowerCase().includes(f.text.toLowerCase()))return false;return true;});
+  const cmp=(a,b)=>{if(f.sort==='updated')return new Date(a.updatedISO)-new Date(b.updatedISO);if(f.sort==='uploaded')return new Date(a.uploadedISO)-new Date(b.uploadedISO);if(f.sort==='lastused')return new Date(a.lastUsedISO||0)-new Date(b.lastUsedISO||0);if(f.sort==='author')return (a.author||'').localeCompare(b.author||'');return a.title.localeCompare(b.title);};
+  m=m.slice().sort((a,b)=>f.dir==='asc'?cmp(a,b):-cmp(a,b));
+  const sel=(k,label,opts,def)=>'<div class="field"><label class="f">'+label+'</label><select class="in" data-model="'+k+'" data-refilter>'+opts.map(o=>{const v=typeof o==='object'?o.v:o,l=typeof o==='object'?o.l:o,cur=fv(k)||def;return '<option value="'+v+'" '+(cur===v?'selected':'')+'>'+l+'</option>';}).join('')+'</select></div>';
+  const dirToggle='<div class="field"><label class="f">Order</label><select class="in" data-model="r_dir" data-refilter><option value="desc" '+(f.dir==='desc'?'selected':'')+'>High → low / New → old</option><option value="asc" '+(f.dir==='asc'?'selected':'')+'>Low → high / Old → new</option></select></div>';
+  const filters='<div class="filters"><div class="field"><label class="f">Search</label><input class="in" data-model="r_text" data-refilter value="'+esc(fv('r_text'))+'" placeholder="Material name"></div>'+sel('r_bu','BU',[{v:'',l:'All'}].concat(BUS))+sel('r_lang','Language',[{v:'',l:'All'}].concat(LANGS))+sel('r_type','Type',[{v:'',l:'All'}].concat(MTYPES))+sel('r_status','Status',[{v:'Active',l:'Active'},{v:'Archived',l:'Archived'},{v:'',l:'All'}],'Active')+sel('r_sort','Sort by',[{v:'updated',l:'Updated date'},{v:'uploaded',l:'Created date'},{v:'lastused',l:'Last used'},{v:'author',l:'Author'},{v:'title',l:'Name'}],'updated')+dirToggle+'</div>';
+  return h2('Content Library','The shared store of material your trainers pick from when preparing a session.')+
+   '<div class="card" style="margin-bottom:14px;border-left:3px solid var(--brand)"><div class="cb" style="padding:14px 16px"><div style="display:flex;gap:22px;flex-wrap:wrap;font-size:13px"><div style="flex:1;min-width:230px"><b style="color:var(--navy)">Session content</b><div class="muted" style="margin-top:2px">Decks, PDFs and videos shown on screen during the live session. Presented by the trainer; partners view it but cannot download it.</div></div><div style="flex:1;min-width:230px"><b style="color:var(--navy)">Takeaway</b> <span class="badge b-teal">Partners can download this</span><div class="muted" style="margin-top:2px">Follow-up material partners keep after the session. This is the only material a partner can download from their portal.</div></div></div></div></div>'+
+   '<div style="margin-bottom:14px"><button class="btn primary" data-act="repo-add">'+icon('upload',16)+' &nbsp;Add material</button></div>'+filters+
+   '<div class="card"><div class="cb" style="padding:0">'+table([{h:'Title',c:m=>'<b>'+esc(m.title)+'</b>'},{h:'BU',c:m=>esc(m.bu)},{h:'Language',c:m=>esc(m.language)},{h:'Type',c:m=>badge(m.type,'blue')},{h:'Topic',c:m=>esc(m.topic)},{h:'Author',c:m=>esc(m.author||'-')},{h:'Ver',c:m=>'v'+m.version},{h:'Created',c:m=>fmtD(m.uploadedISO),s:m=>new Date(m.uploadedISO).getTime()},{h:'Updated',c:m=>fmtD(m.updatedISO),s:m=>new Date(m.updatedISO).getTime()},{h:'Status',c:m=>badge(m.status)},{h:'',c:m=>'<button class="btn sm" data-act="archive:'+m.id+'">'+(m.status==='Active'?'Archive':'Unarchive')+'</button>'}],m,{t:'No material found',s:'Add your first file, or switch Status to Archived to restore items.'})+'</div></div>';
+}
+function dateDefaults(){const to=new Date();const from=new Date(to.getTime()-30*86400000);const f=d=>d.toISOString().slice(0,10);return {from:f(from),to:f(to)};}
+function inRange(iso,from,to){const t=new Date(iso).getTime();if(from&&t<new Date(from).getTime())return false;if(to&&t>new Date(to).getTime()+86400000)return false;return true;}
+function sessionCohorts(s){return [...new Set(db.topicMap.filter(t=>t.topic===s.topic).map(t=>t.cohortId))];}
+function sessionStates(id){return [...new Set(sessEnr(id).map(e=>(partner(e.partnerCode)||{}).state).filter(Boolean))];}
+function sessionRMs(id){return [...new Set(sessEnr(id).map(e=>(partner(e.partnerCode)||{}).rm).filter(Boolean))];}
+function insightsFilter(){
+  const d=dateDefaults();
+  const from=fv('i_from')||d.from,to=fv('i_to')||d.to;
+  const f={from,to,status:fv('i_status'),topic:fv('i_topic'),lang:fv('i_lang'),trainer:fv('i_trainer'),bu:fv('i_bu'),cohort:fv('i_cohort'),state:fv('i_state'),rm:fv('i_rm'),att:fv('i_att'),comp:fv('i_comp'),notif:fv('i_notif'),rec:fv('i_rec'),trans:fv('i_trans')};
+  return db.sessions.filter(s=>{
+    if(!inRange(s.startISO,f.from,f.to))return false;
+    if(f.status&&computeStatus(s)!==f.status)return false;
+    if(f.topic&&s.topic!==f.topic)return false;
+    if(f.lang&&s.language!==f.lang)return false;
+    if(f.trainer&&s.trainerId!==f.trainer)return false;
+    if(f.bu&&deriveBU(s.id)!==f.bu)return false;
+    if(f.cohort&&!sessionCohorts(s).map(String).includes(f.cohort))return false;
+    if(f.state&&!sessionStates(s.id).includes(f.state))return false;
+    if(f.rm&&!sessionRMs(s.id).includes(f.rm))return false;
+    if(f.att==='has'&&att(s.id).length===0)return false;
+    if(f.att==='none'&&att(s.id).length>0)return false;
+    if(f.comp==='has'&&att(s.id).filter(a=>a.completed).length===0)return false;
+    if(f.notif==='fail'&&!notifAgg(s.id).some(n=>n.failed>0))return false;
+    if(f.notif==='clean'&&notifAgg(s.id).some(n=>n.failed>0))return false;
+    if(f.rec&&recStatus(s)!==f.rec)return false;
+    if(f.trans&&(s.transcriptStatus||'—')!==f.trans)return false;
+    return true;
+  });
+}
+function insightsFilterBar(){
+  const d=dateDefaults();const states=[...new Set(db.partners.map(p=>p.state))];const cohorts=db.cohorts;
+  const sel=(k,label,opts)=>'<div class="field"><label class="f">'+label+'</label><select class="in" data-model="'+k+'" data-refilter><option value="">All</option>'+opts.map(o=>{const v=typeof o==='object'?o.v:o,l=typeof o==='object'?o.l:o;return '<option value="'+v+'" '+(fv(k)===String(v)?'selected':'')+'>'+l+'</option>';}).join('')+'</select></div>';
+  return '<div class="filters">'+
+   '<div class="field"><label class="f">From</label><input class="in" type="date" data-model="i_from" data-refilter value="'+(fv('i_from')||d.from)+'"></div>'+
+   '<div class="field"><label class="f">To</label><input class="in" type="date" data-model="i_to" data-refilter value="'+(fv('i_to')||d.to)+'"></div>'+
+   sel('i_status','Session status',['Scheduled','Waiting Room','Live','Completed','Cancelled'])+
+   sel('i_topic','Topic',[...new Set(db.sessions.map(s=>s.topic))])+
+   sel('i_lang','Language',LANGS)+
+   sel('i_trainer','Trainer',db.trainers.map(t=>({v:t.id,l:t.name.replace(/\s*\(.*\)/,'')})))+
+   sel('i_bu','BU',['Life','Health','Motor','Multi-BU','All'])+
+   sel('i_cohort','Cohort',cohorts.map(c=>({v:c.id,l:c.name})))+
+   sel('i_state','State / Region',states)+
+   sel('i_rm','RM',[...new Set(db.partners.map(p=>p.rm).filter(Boolean))])+
+   sel('i_att','Attendance',[{v:'has',l:'Has attendance'},{v:'none',l:'No attendance'}])+
+   sel('i_comp','Completion',[{v:'has',l:'Has completions'}])+
+   sel('i_notif','Notifications',[{v:'clean',l:'All delivered'},{v:'fail',l:'Has failures'}])+
+   sel('i_rec','Recording',['Available','Restricted','Not recorded'])+
+   sel('i_trans','Transcript',['Available','Processing','Live capture','Not started'])+
+   '</div>';
+}
+function analyticsView(){
+  const tab=fv('itab')||'sessions';
+  const tabs='<div class="tabs">'+[['sessions','Sessions'],['trainers','Trainers'],['languages','Languages'],['topics','Topics'],['cohorts','Cohorts']].map(([k,l])=>'<button class="'+(tab===k?'active':'')+'" onclick="state.form.itab=\''+k+'\';render()">'+l+'</button>').join('')+'</div>';
+  let out=h2('Insights','See how your trainings are landing with partners.')+tabs;
+  if(tab==='sessions')out+=insightsSessions();
+  else out+=insightsBreakdown(tab);
+  return out;
+}
+function insightsSessions(){
+  const list=insightsFilter();
+  const agg=list.reduce((o,s)=>{const M=sessionMetrics(s.id);o.invited+=M.invited;o.joined+=M.joined;o.completed+=M.completed;o.spent+=att(s.id).reduce((t,a)=>t+a.durationMin,0);return o;},{invited:0,joined:0,completed:0,spent:0});
+  const fbAll=list.flatMap(s=>db.feedback.filter(f=>f.sessionId===s.id));
+  const kpis='<div class="kpis" style="margin-bottom:6px">'+kpi('Sessions',list.length,'in range','sessions')+kpi('Invited',agg.invited,'','team')+kpi('Joined',agg.joined,'','trainings')+kpi('Completed',agg.completed,'','past')+kpi('Completion rate',pct(agg.completed,agg.joined)+'%','','analytics')+kpi('Avg time spent',agg.joined?Math.round(agg.spent/agg.joined)+' min':'-','','past')+kpi('Feedback score',fbAll.length?(fbAll.reduce((t,f)=>t+f.overall,0)/fbAll.length).toFixed(1):'-','out of 5','trainings')+'</div>';
+  const tbl=table([
+    {h:'Topic',c:s=>'<b>'+esc(s.topic)+'</b>'},{h:'Language',c:s=>esc(s.language)},
+    {h:'Invited',c:s=>sessionMetrics(s.id).invited},
+    {h:'Joined (inv/walk)',c:s=>{const M=sessionMetrics(s.id);return M.joined+' ('+M.joinedInv+'/'+M.joinedWk+')';}},
+    {h:'Completed',c:s=>sessionMetrics(s.id).completed},
+    {h:'Compl. %',c:s=>sessionMetrics(s.id).completionRate+'%'},
+    {h:'Avg dur',c:s=>sessionMetrics(s.id).avgSpent+'m'},
+    {h:'Drop-off',c:s=>sessionMetrics(s.id).dropoff+'%'},
+    {h:'Feedback',c:s=>{const f=feedbackAgg(s.id);return f.overall;}},
+    {h:'Trainer',c:s=>feedbackAgg(s.id).trainer},
+    {h:'Content',c:s=>feedbackAgg(s.id).content},
+    {h:'Recommend',c:s=>{const f=feedbackAgg(s.id);return f.n?f.recPct+'%':'-';}},
+    {h:'Notif reach',c:s=>{const ns=notifAgg(s.id);const d=ns.reduce((t,x)=>t+x.delivered,0),tot=ns.reduce((t,x)=>t+x.delivered+x.failed+x.opted,0);return tot?pct(d,tot)+'%':'-';}},
+    {h:'Recording',c:s=>badge(recStatus(s),recStatus(s)==='Available'?'green':recStatus(s)==='Restricted'?'amber':'gray')},
+  ],list,{t:'No sessions in this range',s:'Widen the dates or clear a filter.'});
+  return insightsFilterBar()+kpis+'<div class="btnrow" style="margin:0 0 12px"><button class="btn" data-act="export:sessionanalytics">Export sessions (CSV)</button></div><div class="card"><div class="cb" style="padding:0;overflow:auto">'+tbl+'</div></div>';
+}
+function insightsBreakdown(kind){
+  const d=dateDefaults();const from=fv('b_from')||d.from,to=fv('b_to')||d.to;
+  const base=db.sessions.filter(s=>inRange(s.startISO,from,to));
+  const range='<div class="filters"><div class="field"><label class="f">From</label><input class="in" type="date" data-model="b_from" data-refilter value="'+from+'"></div><div class="field"><label class="f">To</label><input class="in" type="date" data-model="b_to" data-refilter value="'+to+'"></div></div>';
+  let rows=[],cols=[],title='';
+  if(kind==='trainers'){title='Trainer performance';
+    rows=db.trainers.map(t=>{const ss=base.filter(s=>s.trainerId===t.id);const a=ss.flatMap(s=>att(s.id));const fb=ss.flatMap(s=>db.feedback.filter(f=>f.sessionId===s.id));return {name:t.name.replace(/\s*\(.*\)/,''),sessions:ss.length,attendance:a.length,completed:a.filter(x=>x.completed).length,rating:fb.length?(fb.reduce((x,f)=>x+f.overall,0)/fb.length).toFixed(1):'-',trainer:fb.length?(fb.reduce((x,f)=>x+f.trainer,0)/fb.length).toFixed(1):'-'};}).filter(r=>r.sessions>0);
+    cols=[{h:'Trainer',c:r=>'<b>'+esc(r.name)+'</b>'},{h:'Sessions',c:r=>r.sessions},{h:'Total attendance',c:r=>r.attendance},{h:'Completed',c:r=>r.completed},{h:'Avg rating',c:r=>r.rating},{h:'Trainer effectiveness',c:r=>r.trainer}];}
+  else if(kind==='languages'){title='Attendance by language';
+    rows=LANGS.map(l=>{const ss=base.filter(s=>s.language===l);const a=ss.flatMap(s=>att(s.id));return {name:l,sessions:ss.length,invited:ss.reduce((t,s)=>t+sessEnr(s.id).length,0),joined:a.length,completed:a.filter(x=>x.completed).length};}).filter(r=>r.sessions>0);
+    cols=[{h:'Language',c:r=>'<b>'+esc(r.name)+'</b>'},{h:'Sessions',c:r=>r.sessions},{h:'Invited',c:r=>r.invited},{h:'Joined',c:r=>r.joined},{h:'Completed',c:r=>r.completed},{h:'Completion %',c:r=>pct(r.completed,r.joined)+'%'}];}
+  else if(kind==='topics'){title='Attendance by topic';
+    const topics=[...new Set(base.map(s=>s.topic))];
+    rows=topics.map(tp=>{const ss=base.filter(s=>s.topic===tp);const a=ss.flatMap(s=>att(s.id));return {name:tp,sessions:ss.length,invited:ss.reduce((t,s)=>t+sessEnr(s.id).length,0),joined:a.length,completed:a.filter(x=>x.completed).length};});
+    cols=[{h:'Topic',c:r=>'<b>'+esc(r.name)+'</b>'},{h:'Sessions',c:r=>r.sessions},{h:'Invited',c:r=>r.invited},{h:'Joined',c:r=>r.joined},{h:'Completed',c:r=>r.completed},{h:'Completion %',c:r=>pct(r.completed,r.joined)+'%'}];}
+  else{title='Attendance by cohort';
+    rows=db.cohorts.map(c=>{const ss=base.filter(s=>sessionCohorts(s).includes(c.id));const a=ss.flatMap(s=>att(s.id));return {name:c.name,sessions:ss.length,joined:a.length,completed:a.filter(x=>x.completed).length};}).filter(r=>r.sessions>0);
+    cols=[{h:'Cohort',c:r=>'<b>'+esc(r.name)+'</b>'},{h:'Sessions',c:r=>r.sessions},{h:'Joined',c:r=>r.joined},{h:'Completed',c:r=>r.completed},{h:'Completion %',c:r=>pct(r.completed,r.joined)+'%'}];}
+  return range+'<div class="btnrow" style="margin:0 0 12px"><button class="btn" data-act="export:breakdown_'+kind+'">Export (CSV)</button></div><div class="card"><div class="cb" style="padding:0;overflow:auto">'+table(cols,rows,{t:'Nothing in this range',s:'Try widening the dates.'})+'</div></div>';
+}
+function usersView(){
+  const rbac=[['Manage content library','Yes','Yes','Select only','—'],['Manage takeaway','Yes','Yes','Select only','—'],['Upload partners / topics / schedule','Yes','Yes','—','—'],['Cancel / substitute / reschedule','Yes','Yes','—','—'],['Run a session','—','—','Yes','—'],['See insights','Yes','Yes','Own only','—'],['Add teammates','Yes','—','—','—']];
+  return h2('Team & Access','Add teammates and see who can do what.')+
+   '<div class="grid2"><div class="card"><div class="ch">Add a teammate</div><div class="cb"><div class="field"><label class="f">Name</label><input class="in" data-model="newUserName" value="'+esc(fv('newUserName'))+'" placeholder="Full name"></div><div class="field"><label class="f">Emp code</label><input class="in" data-model="newUserEmp" value="'+esc(fv('newUserEmp'))+'" placeholder="e.g. EMP1024"></div><div class="field"><label class="f">Email ID</label><input class="in" type="email" data-model="newUserEmail" value="'+esc(fv('newUserEmail'))+'" placeholder="name@pbpartners.com"></div><div class="field"><label class="f">Role</label><select class="in" data-model="newUserRole"><option>Training Admin</option><option>Trainer</option></select></div><button class="btn primary" data-act="create-user">Add teammate</button></div></div>'+
+   '<div class="card"><div class="ch">Your team</div><div class="cb" style="padding:0">'+table([{h:'Name',c:u=>'<b>'+esc(u.name.replace(/\s*\(.*\)/,''))+'</b>'},{h:'Emp code',c:u=>esc(u.empCode||'-')},{h:'Email',c:u=>esc(u.email||'-')},{h:'Role',c:u=>badge(u.role,'blue')}],db.users)+'</div></div></div>'+
+   '<h3 class="sec">Who can do what</h3><div class="card"><div class="cb" style="padding:0">'+table([{h:'Capability',c:r=>r[0]},{h:'Super Admin',c:r=>r[1]},{h:'Training Admin',c:r=>r[2]},{h:'Trainer',c:r=>r[3]},{h:'Partner',c:r=>r[4]}],rbac)+'</div></div>';
+}
+function notifView(){return h2('Notifications','Everything Saksham has sent to partners and trainers.')+'<div class="card"><div class="cb" style="padding:0">'+
+   table([{h:'To',c:n=>badge(n.audience,'blue')},{h:'Message',c:n=>esc(n.trigger)},{h:'Channel',c:n=>esc(n.channel)},{h:'Session',c:n=>{const s=db.sessions.find(x=>x.id===n.sessionId);return s?esc(s.topic+' · '+s.language):'-';}},{h:'Status',c:n=>badge(n.status,'green')},{h:'When',c:n=>fmtDT(n.atISO),s:n=>new Date(n.atISO).getTime()}],db.notifications,'No notifications yet')+'</div></div>';}
+function auditView(){return h2('Activity Log','A record of every change made in Saksham.')+'<div class="card"><div class="cb" style="padding:0">'+
+   table([{h:'Action',c:a=>badge(a.action,'purple')},{h:'Detail',c:a=>esc(a.detail)},{h:'By',c:a=>esc(a.by.replace(/\s*\(.*\)/,''))},{h:'When',c:a=>fmtDT(a.atISO),s:a=>new Date(a.atISO).getTime()}],db.audit)+'</div></div>';}
+function movementView(){
+  const q=(fv('mvq')||'').trim();const sel=fv('mvsel');
+  const lastCohort=code=>{const rows=(db.cohortMovements[code]||[]).slice().sort((a,b)=>new Date(a.atISO)-new Date(b.atISO));if(rows.length<2)return null;return rows[rows.length-2];};
+  const cohName=id=>(db.cohorts.find(c=>c.id===id)||{}).name||('Cohort '+id);
+  // ---- Detail view (a partner is selected) ----
+  if(sel){
+    const p=partner(sel);
+    if(p){
+      let out=h2('Cohort Movement','How this partner’s cohort has changed across uploads.');
+      out+='<div style="margin:2px 0 14px"><button class="btn sm" data-act="mv-clear">← Back to all partners</button></div>';
+      const curCohort=cohName(p.cohortId);
+      out+='<div class="card"><div class="cb"><div style="display:flex;gap:22px;flex-wrap:wrap;align-items:center">'+
+        '<div class="avatar" style="width:44px;height:44px;border-radius:12px;background:var(--brand-soft2);color:var(--brand);display:flex;align-items:center;justify-content:center;font-weight:750">'+initials(p.name)+'</div>'+
+        '<div><div style="font-weight:750;font-size:16px">'+esc(p.name)+' <span class="muted" style="font-weight:500">· '+esc(p.code)+'</span></div>'+
+        '<div class="muted" style="font-size:13px">'+esc(p.bu)+' · '+esc(p.language)+' · '+esc(p.state)+' · RM '+esc(p.rm||'-')+'</div></div>'+
+        '<div style="margin-left:auto;text-align:right"><div class="muted" style="font-size:11px">CURRENT COHORT</div><div style="font-weight:700;color:var(--brand)">'+esc(curCohort)+'</div></div>'+
+       '</div></div></div>';
+      const rows=(db.cohortMovements[p.code]||[]).slice().sort((a,b)=>new Date(b.atISO)-new Date(a.atISO));
+      const actTone={Added:'blue',Moved:'purple','Updated':'amber','No change':'gray'};
+      out+='<h3 class="sec">Movement by cohort upload</h3><div class="card"><div class="cb" style="padding:0;overflow:auto">'+table([
+        {h:'Upload date',c:r=>fmtDT(r.atISO),s:r=>new Date(r.atISO).getTime()},
+        {h:'Activity',c:r=>badge(r.action,actTone[r.action]||'gray')},
+        {h:'Cohort',c:r=>'<b>'+esc(r.cohortName)+'</b> <span class="muted">('+r.cohortId+')</span>'},
+        {h:'BU',c:r=>esc(r.bu)},
+        {h:'Language',c:r=>esc(r.language)},
+        {h:'What changed',c:r=>esc(r.note)},
+      ],rows,'No movement recorded for this partner.')+'</div></div>';
+      out+='<div class="btnrow" style="margin-top:12px"><button class="btn" data-act="mv-export:'+p.code+'">Export movement (CSV)</button></div>';
+      return out;
+    }
+  }
+  // ---- Landing view: all current partners with last and current cohort ----
+  let out=h2('Cohort Movement','Every partner in the system with their last and current cohort. Open any partner to see the full movement history.');
+  out+='<div class="searchwrap" style="max-width:420px">'+icon('available',16)+'<input class="in" placeholder="Search by IP code or name, e.g. IP4938 or Lakshmi" data-model="mvq" data-refilter value="'+esc(q)+'"></div>';
+  let list=db.partners.slice();
+  if(q)list=list.filter(p=>(p.code+' '+p.name).toLowerCase().includes(q.toLowerCase()));
+  const movedCount=db.partners.filter(p=>{const l=lastCohort(p.code);return l&&l.cohortId!==p.cohortId;}).length;
+  out+='<div class="kpis" style="margin:4px 0 12px">'+kpi('Partners in system',db.partners.length,'','team')+kpi('Cohorts',db.cohorts.length,'','trainings')+kpi('Changed at last upload',movedCount,'moved cohort','movement')+'</div>';
+  const rows=list.map(p=>{const l=lastCohort(p.code);return {p,l,moved:l&&l.cohortId!==p.cohortId};});
+  out+='<div class="card"><div class="cb" style="padding:0;overflow:auto">'+table([
+    {h:'IP code',c:r=>'<b>'+esc(r.p.code)+'</b>'},
+    {h:'Name',c:r=>esc(r.p.name)},
+    {h:'BU',c:r=>esc(r.p.bu)},
+    {h:'Language',c:r=>esc(r.p.language)},
+    {h:'Last cohort',c:r=>r.l?esc(r.l.cohortName)+' <span class="muted">('+r.l.cohortId+')</span>':'<span class="muted">—</span>'},
+    {h:'Current cohort',c:r=>'<b>'+esc(cohName(r.p.cohortId))+'</b> <span class="muted">('+r.p.cohortId+')</span>'},
+    {h:'',c:r=>r.moved?badge('Moved','purple'):badge('No change','gray')},
+    {h:' ',c:r=>'<button class="btn sm" data-act="mv-open:'+r.p.code+'">View movement</button>'},
+  ],rows,q?'No partner matches "'+esc(q)+'".':'No partners in the system.')+'</div></div>';
+  return out;
+}
+
+/* ===================== TRAINER ===================== */
+function trainerSessionsList(tid){return db.sessions.filter(s=>s.trainerId===tid)}
+function heroCard(cls,label,value,sub,ic){return '<div class="herocard '+cls+'"><div class="hic">'+icon(ic,44)+'</div><div class="hl">'+esc(label)+'</div><div class="hv">'+esc(value)+'</div><div class="hs">'+esc(sub)+'</div></div>';}
+function trainerHeroes(mine){const today=mine.filter(s=>new Date(s.startISO).toDateString()===new Date().toDateString()&&computeStatus(s)!=='Cancelled').length;const coming=mine.filter(s=>computeStatus(s)==='Scheduled').length;
+  return '<div class="herorow">'+heroCard('blue','Scheduled for today',today,today===1?'session to deliver':'sessions to deliver','sessions')+heroCard('teal','Coming up',coming,'scheduled ahead','available')+'</div>';}
+function trainerDash(){
+  const tid=state.user.id;const mine=trainerSessionsList(tid);
+  let out=greetTitle('Hi,',personName(state.user.name),'Here’s your day at a glance.')+liveBanner()+trainerHeroes(mine);
+  out+='<h3 class="sec">Your sessions</h3>'+trainerTable(mine,true);return out;
+}
+function trainerSessions(){return h2('My Sessions','Prepare your material, go live, and review how it went.')+trainerTable(trainerSessionsList(state.user.id),true);}
+function trainerControls(topics){
+  const ft=fv('ts_topic'),so=fv('ts_sort')||'time';
+  return '<div class="filters"><div class="field"><label class="f">Type of training</label><select class="in" data-model="ts_topic" data-refilter><option value="">All topics</option>'+topics.map(t=>'<option '+(ft===t?'selected':'')+'>'+t+'</option>').join('')+'</select></div><div class="field"><label class="f">Sort by</label><select class="in" data-model="ts_sort" data-refilter>'+[['time','Scheduled time'],['invited','Partners invited'],['duration','Duration']].map(([v,l])=>'<option value="'+v+'" '+(so===v?'selected':'')+'>'+l+'</option>').join('')+'</select></div></div>';
+}
+function trainerTable(sessions,controls){
+  const topics=[...new Set(sessions.map(s=>s.topic))];
+  const ft=fv('ts_topic'),so=fv('ts_sort')||'time';
+  let rows=sessions.slice();
+  if(controls&&ft)rows=rows.filter(s=>s.topic===ft);
+  rows.sort((a,b)=>{if(so==='invited')return sessEnr(b.id).length-sessEnr(a.id).length;if(so==='duration')return b.durationMin-a.durationMin;return new Date(a.startISO)-new Date(b.startISO);});
+  const tbl='<div class="card"><div class="cb" style="padding:0">'+table([{h:'Topic',c:s=>'<b>'+esc(s.topic)+'</b>'+(s.recentlyAdded?'<span class="tag-new">Recently added</span>':'')},{h:'Language',c:s=>esc(s.language)},{h:'When',c:s=>fmtDT(s.startISO),s:s=>new Date(s.startISO).getTime()},{h:'Length',c:s=>s.durationMin+' min',s:s=>s.durationMin},{h:'Partners',c:s=>sessEnr(s.id).length},{h:'Material',c:s=>s.materialIds.length?badge('Ready','green'):badge('Add material','amber')},{h:'Status',c:s=>badge(computeStatus(s)),s:s=>({Live:0,'Waiting Room':1,Scheduled:2,Completed:3,Cancelled:4}[computeStatus(s)]??9)},{h:'',c:s=>{const st=computeStatus(s);if(st==='Completed')return '<button class="btn sm" data-act="sessdetail:'+s.id+'">Details</button>';let b='<button class="btn sm" data-act="prepare:'+s.id+'">Prepare</button>';if(['Live','Waiting Room'].includes(st))b+=' <button class="btn sm primary" data-act="enter-class:'+s.id+'" data-mode="trainer">Go live</button>';return b;}}],rows,{t:'No sessions yet',s:'They’ll show up here once scheduled.'})+'</div></div>';
+  return (controls?trainerControls(topics):'')+tbl;
+}
+function trainerPerformance(){
+  const tid=state.user.id;const all=trainerSessionsList(tid);const topics=[...new Set(all.map(s=>s.topic))];
+  const range=fv('perfRange')||'30',ft=fv('perf_topic'),fd=fv('perf_dur');
+  const days=range==='all'?36500:Number(range);const cutoff=now()-days*86400000;
+  let mine=all.filter(s=>{const t=new Date(s.startISO).getTime();return t<=now()&&t>=cutoff;});
+  if(ft)mine=mine.filter(s=>s.topic===ft);if(fd)mine=mine.filter(s=>fd==='short'?s.durationMin<=45:s.durationMin>45);
+  const sessions=mine.length,expected=mine.reduce((t,s)=>t+sessEnr(s.id).length,0),joined=mine.reduce((t,s)=>t+att(s.id).length,0),completed=mine.reduce((t,s)=>t+att(s.id).filter(a=>a.completed).length,0);
+  const avgDur=joined?Math.round(mine.flatMap(s=>att(s.id)).reduce((t,a)=>t+a.durationMin,0)/joined):0;
+  const fb=mine.flatMap(s=>db.feedback.filter(f=>f.sessionId===s.id));
+  const walkins=mine.reduce((t,s)=>t+att(s.id).filter(a=>String(a.source).indexOf('Walk-in')===0).length,0);
+  const more=fv('perfMore');
+  const rangeSel='<div class="filters"><div class="field"><label class="f">Date range</label><select class="in" data-model="perfRange" data-refilter>'+[['7','Last 7 days'],['30','Last 30 days'],['90','Last 90 days'],['all','All time']].map(([v,l])=>'<option value="'+v+'" '+(range===v?'selected':'')+'>'+l+'</option>').join('')+'</select></div><div class="field"><label class="f">Type of training</label><select class="in" data-model="perf_topic" data-refilter><option value="">All topics</option>'+topics.map(t=>'<option '+(ft===t?'selected':'')+'>'+t+'</option>').join('')+'</select></div><div class="field"><label class="f">Duration</label><select class="in" data-model="perf_dur" data-refilter><option value="">Any length</option><option value="short" '+(fd==='short'?'selected':'')+'>Up to 45 min</option><option value="long" '+(fd==='long'?'selected':'')+'>Over 45 min</option></select></div></div>';
+  let out=h2('My Performance','How your sessions have gone. Pick a period to see the numbers for it.')+trainerHeroes(all)+rangeSel+
+   '<div class="kpis">'+kpi('Sessions aligned for you',sessions,'in this period','sessions')+kpi('Partners joined',joined,'','trainings')+kpi('Partners completed',completed,'finished 75%+','past')+kpi('Completion rate',pct(completed,joined)+'%','','analytics')+kpi('Avg time in session',avgDur+' min','','past')+
+   (more?kpi('Partners invited',expected,'','team')+kpi('Walk-in joins',walkins,'','available')+kpi('Session rating',fb.length?(fb.reduce((t,f)=>t+f.overall,0)/fb.length).toFixed(1):'-','out of 5','trainings')+kpi('Trainer rating',fb.length?(fb.reduce((t,f)=>t+f.trainer,0)/fb.length).toFixed(1):'-','out of 5','trainer'):'')+'</div>'+
+   '<div style="margin-top:12px"><button class="btn ghost" onclick="state.form.perfMore='+(more?'false':'true')+';render()">'+(more?'Show less':'Show more metrics')+'</button></div>';
+  return out;
+}
+
+/* ===================== PARTNER ===================== */
+function enrolFor(code){return db.enrolments.filter(e=>e.partnerCode===code)}
+function partnerMy(){
+  const code=myCode();const p=partner(code);
+  const mine=enrolFor(code).map(e=>({e,s:db.sessions.find(x=>x.id===e.sessionId)})).filter(x=>x.s&&computeStatus(x.s)!=='Completed'&&x.s.status!=='Cancelled').sort((a,b)=>new Date(a.s.startISO)-new Date(b.s.startISO));
+  const nm=(p&&p.name||'').split(' ')[0];
+  return greetTitle('Namaste',nm,'The trainings you’re invited to, and the ones you’ve enrolled in.')+liveBanner()+
+   '<div class="card"><div class="cb" style="padding:0">'+table([{h:'Training',c:x=>'<b>'+esc(x.s.topic)+'</b>'},{h:'Language',c:x=>esc(x.s.language)},{h:'When',c:x=>fmtDT(x.s.startISO),s:x=>new Date(x.s.startISO).getTime()},{h:'Status',c:x=>badge(computeStatus(x.s))},{h:'',c:x=>badge(x.e.source==='Assigned'?'Invited for you':'You enrolled',x.e.source==='Assigned'?'blue':'teal')},{h:'',c:x=>{const st=computeStatus(x.s);if(['Live','Waiting Room'].includes(st))return '<button class="btn sm primary" data-act="join-class:'+x.s.id+'">Join now</button>';return '<span class="muted" style="font-size:12px">Opens near start</span>';}}],mine,{t:'Nothing scheduled yet',s:'Head to Discover to find a training and enrol.'})+'</div></div>';
+}
+function partnerAvailable(){
+  const code=myCode();const p=partner(code);
+  const period=fv('a_period')||'7',lang=state.form.a_lang!==undefined?state.form.a_lang:(p?p.language:''),bu=state.form.a_bu!==undefined?state.form.a_bu:'';
+  const enrolled=new Set(enrolFor(code).map(e=>e.sessionId));const horizon=period==='all'?3650:Number(period);const cutoff=now()+horizon*86400000;
+  let list=db.sessions.filter(s=>{if(!s.walkinAllowed||s.status==='Cancelled')return false;if(enrolled.has(s.id))return false;if(computeStatus(s)==='Completed')return false;if(new Date(s.startISO).getTime()>cutoff)return false;if(lang&&s.language!==lang)return false;return true;}).sort((a,b)=>new Date(a.startISO)-new Date(b.startISO));
+  const filters='<div class="filters"><div class="field"><label class="f">When</label><select class="in" data-model="a_period" data-refilter>'+[['2','Next 2 days'],['7','This week'],['30','Next 30 days'],['all','Anytime']].map(([v,l])=>'<option value="'+v+'" '+(period===v?'selected':'')+'>'+l+'</option>').join('')+'</select></div><div class="field"><label class="f">Language</label><select class="in" data-model="a_lang" data-refilter><option value="">Any language</option>'+LANGS.map(l=>'<option '+(lang===l?'selected':'')+'>'+l+'</option>').join('')+'</select></div><div class="field"><label class="f">Area</label><select class="in" data-model="a_bu" data-refilter><option value="">All areas</option>'+BUS.map(b=>'<option '+(bu===b?'selected':'')+'>'+b+'</option>').join('')+'</select></div></div>';
+  return h2('Discover trainings','Sessions open for you — join the ones that fit your day.')+filters+'<div class="pill-legend"><span class="dot"></span>Open to join</div>'+
+   '<div class="card"><div class="cb" style="padding:0">'+table([{h:'Training',c:s=>'<b>'+esc(s.topic)+'</b>'},{h:'Language',c:s=>esc(s.language)},{h:'When',c:s=>fmtDT(s.startISO),s:s=>new Date(s.startISO).getTime()},{h:'Status',c:s=>badge(computeStatus(s)),s:s=>({Live:0,'Waiting Room':1,Scheduled:2,Completed:3,Cancelled:4}[computeStatus(s)]??9)},{h:'',c:s=>computeStatus(s)==='Live'?'<button class="btn sm primary" data-act="join-class:'+s.id+'">Join now</button>':'<button class="btn sm primary" data-act="enrol:'+s.id+'">Enrol</button>'}],list,{t:'Nothing open right now',s:'Try a longer time range or another language.'})+'</div></div>';
+}
+function partnerPast(){
+  const code=myCode();
+  const rows=enrolFor(code).map(e=>({e,s:db.sessions.find(x=>x.id===e.sessionId)})).filter(x=>x.s&&(computeStatus(x.s)==='Completed'||x.s.status==='Cancelled')).sort((a,b)=>new Date(b.s.startISO)-new Date(a.s.startISO));
+  const myFb=sid=>db.feedback.find(f=>f.sessionId===sid&&f.partnerCode===code);
+  return h2('Completed trainings','Look back at what you’ve attended, grab your material, and share feedback.')+
+   '<div class="card"><div class="cb" style="padding:0">'+table([{h:'Training',c:x=>'<b>'+esc(x.s.topic)+'</b>'},{h:'Language',c:x=>esc(x.s.language)},{h:'When',c:x=>fmtD(x.s.startISO),s:x=>new Date(x.s.startISO).getTime()},{h:'Status',c:x=>x.s.status==='Cancelled'?badge('Cancelled','red'):badge('Completed','gray')},{h:'Material',c:x=>x.s.takeawayIds&&x.s.takeawayIds.length?'<button class="btn sm" data-act="sim-download">Download</button>':'<span class="muted">-</span>'},{h:'Recording',c:x=>x.s.recorded&&x.s.recordingEnabled?'<button class="btn sm" data-act="sim-recording">Watch</button>':'<span class="muted">-</span>'},{h:'Feedback',c:x=>x.s.status==='Cancelled'?'<span class="muted">-</span>':(myFb(x.s.id)?badge('Thanks!','green'):'<button class="btn sm primary" data-act="feedback:'+x.s.id+'">Rate it</button>')}],rows,{t:'Nothing completed yet',s:'Your finished trainings will appear here.'})+'</div></div>';
+}
+
+/* ===================== CLASSROOM ===================== */
+function startTicker(){const lines=['Welcome everyone, let’s begin with today’s topic.','Please stay on mute unless you’re asking a question.','Here’s our first customer scenario.','Notice how the product fit changes with the customer profile.','Use raise-hand if you’d like to speak.','Now, let’s talk about handling objections.'];let i=0;ticker=setInterval(()=>{if(!state.classroom){clearInterval(ticker);ticker=null;return;}state.classroom.trans.push(lines[i%lines.length]);state.classroom.trans=state.classroom.trans.slice(-6);i++;const el=document.getElementById('transbody');if(el&&(state.classroom.tab||'chat')==='trans')el.innerHTML=state.classroom.trans.map(t=>'<div class="ticker">'+esc(t)+'</div>').join('')||'<div class="ticker">Listening…</div>';},3500);}
+function classroomView(){
+  const c=state.classroom;if(!c)return h2('Session not found')+'<button class="btn" data-act="leave-class">Back</button>';
+  const s=db.sessions.find(x=>x.id===c.id);const enr=sessEnr(c.id);const tab=c.tab||'chat';const total=8;const mode=c.mode;
+  const stage='<div class="stage"><div class="slide"><div class="big">Slide '+c.slide+' / '+total+'</div><div style="color:#8ea3c4;margin-top:8px">'+esc(s.topic)+' — '+esc(s.language)+'</div>'+(c.rec?'<div style="margin-top:10px;color:#ff6b6b">● Recording</div>':'')+'</div><div class="ctrl">'+
+   (mode==='trainer'?'<button class="btn" data-act="slide:prev">◀ Prev</button><button class="btn" data-act="slide:next">Next ▶</button><button class="btn '+(c.rec?'rec':'')+'" data-act="rec">'+(c.rec?'■ Stop recording':'● Record')+'</button><button class="btn primary" data-act="end-class">End session</button>':'<button class="btn '+(!c.muted?'on':'')+'" data-act="mute">'+(c.muted?'🔇 Unmute':'🔊 Mute')+'</button><button class="btn '+(c.hand?'on':'')+'" data-act="hand">✋ '+(c.hand?'Lower hand':'Raise hand')+'</button><button class="btn" data-act="leave-class">Leave</button>')+
+   '</div></div>';
+  let body='';
+  if(tab==='chat')body=c.chat.map(m=>'<div class="msg"><b>'+esc(m.who.replace(/\s*\(.*\)/,''))+':</b> '+esc(m.text)+'</div>').join('')+'<div style="display:flex;gap:6px;margin-top:8px"><input class="in" style="background:#132038;color:#fff;border-color:#24344f" data-model="chatMsg" value="'+esc(fv('chatMsg'))+'" placeholder="Message"><button class="btn on" data-act="chat-send">Send</button></div>';
+  else if(tab==='people')body='<div class="part"><b style="color:#fff">'+esc(((trainer(s.trainerId)||{}).name||'').replace(/\s*\(.*\)/,''))+'</b><span class="badge b-teal">Trainer</span></div>'+enr.map(e=>'<div class="part"><span>'+esc((partner(e.partnerCode)||{}).name||e.partnerCode)+'</span><span class="muted">'+esc(e.source)+'</span></div>').join('');
+  else body='<div id="transbody">'+(c.trans.length?c.trans.map(t=>'<div class="ticker">'+esc(t)+'</div>').join(''):'<div class="ticker">'+(mode==='trainer'?'Listening…':'The live transcript will appear here.')+'</div>')+'</div>';
+  const side='<div class="side"><div class="tabs2"><button class="'+(tab==='chat'?'active':'')+'" data-act="class-tab:chat">Chat</button><button class="'+(tab==='people'?'active':'')+'" data-act="class-tab:people">People ('+enr.length+')</button><button class="'+(tab==='trans'?'active':'')+'" data-act="class-tab:trans">Transcript</button></div><div class="body">'+body+'</div></div>';
+  return h2((mode==='trainer'?'Live session':'You’re in')+' · '+s.topic,esc(s.language)+' · '+fmtDT(s.startISO))+'<div class="classroom">'+stage+side+'</div>';
+}
+
+/* ===================== MODALS ===================== */
+function renderModal(){const m=state.modal;if(!m){document.getElementById('modal').innerHTML='';return;}
+  let html='';if(m.type==='manage')html=manageModal(m);else if(m.type==='addmat')html=addMatModal(m);else if(m.type==='prepare')html=prepareModal(m);else if(m.type==='feedback')html=feedbackModal(m);else if(m.type==='notif')html=notifModal(m);else if(m.type==='sessdetail')html=sessDetailModal(m);else if(m.type==='sessperf')html=sessperfModal(m);else if(m.type==='uplhistory')html=uplHistoryModal(m);
+  document.getElementById('modal').innerHTML=html;
+  document.querySelectorAll('#modal [data-act]').forEach(el=>el.onclick=e=>{e.stopPropagation();handle(el.dataset.act,el)});
+  document.querySelectorAll('#modal [data-file]').forEach(el=>el.onchange=()=>onFile(el));
+  document.querySelectorAll('#modal [data-remodal]').forEach(el=>el.onchange=()=>{harvest();renderModal();});
+}
+function shell(title,body,footer,wide){return '<div class="mback" data-act="closeModal"><div class="modal '+(wide?'wide':'')+'" onclick="event.stopPropagation()"><div class="mh"><h3>'+esc(title)+'</h3><button class="x" data-act="closeModal">×</button></div><div class="mb">'+body+'</div>'+(footer?'<div class="mf">'+footer+'</div>':'')+'</div></div>';}
+function sessionMetrics(id){const s=db.sessions.find(x=>x.id===id)||{durationMin:60};const enr=sessEnr(id);const a=att(id);
+  const invited=enr.filter(e=>e.source==='Assigned'||e.source==='Manually added').length;
+  const walkinEnr=enr.filter(e=>String(e.source).indexOf('Walk-in')===0).length;
+  const joinedInv=a.filter(x=>x.source==='Assigned'||x.source==='Manually added').length;
+  const joinedWk=a.filter(x=>String(x.source).indexOf('Walk-in')===0).length;
+  const joined=a.length,completed=a.filter(x=>x.completed).length;
+  const avgDur=s.durationMin,avgSpent=joined?Math.round(a.reduce((t,x)=>t+x.durationMin,0)/joined):0;
+  return {invited,walkinEnr,joinedInv,joinedWk,joined,completed,met75:completed,completionRate:pct(completed,joined),avgDur,avgSpent,dropoff:pct(joined-completed,joined)};}
+function feedbackAgg(id){const f=db.feedback.filter(x=>x.sessionId===id);const n=f.length;const avg=k=>n?(f.reduce((t,x)=>t+x[k],0)/n).toFixed(1):'-';const rec=f.filter(x=>x.recommend).length;return {n,overall:avg('overall'),trainer:avg('trainer'),content:avg('content'),recPct:n?Math.round(rec/n*100):0,rows:f};}
+function notifAgg(id){return db.notifStats.filter(x=>x.sessionId===id);}
+function recStatus(s){if(s.status==='Cancelled')return 'Not recorded';if(s.recorded)return s.recordingViewable?'Available':'Restricted';if(computeStatus(s)==='Completed')return 'Not recorded';return '—';}
+function openManage(id){state.modal={type:'manage',id,tab:'roster',sel:[],warn:null,mat:(db.sessions.find(x=>x.id===id)||{}).materialIds.slice(),tk:(db.sessions.find(x=>x.id===id)||{}).takeawayIds.slice(),q:''};renderModal();}
+function manageModal(m){
+  const s=db.sessions.find(x=>x.id===m.id);const enr=sessEnr(m.id);const st=computeStatus(s);
+  const head='<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px"><div><span class="muted">Status</span><br>'+badge(st)+'</div><div><span class="muted">BU</span><br>'+buCell(m.id)+'</div><div><span class="muted">When</span><br>'+fmtDT(s.startISO)+'</div><div><span class="muted">Trainer</span><br>'+esc(((trainer(s.trainerId)||{}).name||'').replace(/\s*\(.*\)/,''))+'</div><div><span class="muted">Walk-in</span><br><button class="btn sm" data-act="toggle-walkin">'+(s.walkinAllowed?'Open · close it':'Closed · open it')+'</button></div>'+(['Live','Waiting Room'].includes(st)?'<div><span class="muted">Session</span><br><button class="btn sm primary" data-act="monitor:'+m.id+'">Monitor live</button></div>':'')+'</div>';
+  const tabs='<div class="tabs">'+[['roster','Who’s in ('+enr.length+')'],['add','Add / remove'],['material','Material'],['notif','Notifications'],['recording','Recording'],['feedback','Feedback'],['ops','Trainer & time'],['logs','Logs'],['cancel','Cancel']].map(([k,l])=>'<button class="'+(m.tab===k?'active':'')+'" data-act="mtab:'+k+'">'+l+'</button>').join('')+'</div>';
+  let body='';
+  if(m.tab==='roster')body=table([{h:'Code',c:e=>e.partnerCode},{h:'Name',c:e=>esc((partner(e.partnerCode)||{}).name||'-')},{h:'Language',c:e=>(partner(e.partnerCode)||{}).language},{h:'BU',c:e=>(partner(e.partnerCode)||{}).bu},{h:'How',c:e=>badge(e.source)}],enr,'No partners yet');
+  else if(m.tab==='material'){body=manageMaterial(m);}
+  else if(m.tab==='notif'){const rows=notifAgg(m.id);body='<p class="muted" style="margin-top:0">Delivery status by cadence.</p>'+table([{h:'Cadence',c:r=>esc(r.cadence)},{h:'Delivered',c:r=>badge(String(r.delivered),'green')},{h:'Failed',c:r=>r.failed?badge(String(r.failed),'red'):'0'},{h:'Opted out',c:r=>r.opted?badge(String(r.opted),'amber'):'0'}],rows,'No notifications for this session yet.');}
+  else if(m.tab==='recording'){body='<div class="card" style="box-shadow:none"><div class="ch">Recording access for partners</div><div class="cb"><p class="muted" style="margin-top:0">Controls whether partners can watch the recording on their portal. On by default.</p><div class="checkline"><b>'+(s.recordingViewable?'Enabled':'Disabled')+'</b><button class="btn sm '+(s.recordingViewable?'':'primary')+'" data-act="toggle-rec">'+(s.recordingViewable?'Disable':'Enable')+'</button></div><div class="help">Recording status: '+recStatus(s)+'</div></div></div>';}
+  else if(m.tab==='feedback'){const fa=feedbackAgg(m.id);body='<div class="kpis" style="margin-bottom:14px">'+kpi('Responses',fa.n,'','activity')+kpi('Overall',fa.overall,'out of 5','analytics')+kpi('Trainer',fa.trainer,'out of 5','trainer')+kpi('Content',fa.content,'out of 5','library')+kpi('Recommend',fa.recPct+'%','said yes','trainings')+'</div>'+table([{h:'Partner',c:f=>esc((partner(f.partnerCode)||{}).name||f.partnerCode)},{h:'Overall',c:f=>f.overall},{h:'Trainer',c:f=>f.trainer},{h:'Content',c:f=>f.content},{h:'Recommend',c:f=>f.recommend?badge('Yes','green'):badge('No','red')},{h:'Comment',c:f=>esc(f.comment||'-')}],fa.rows,'No feedback yet.');}
+  else if(m.tab==='logs'){const logs=db.audit.filter(a=>a.sessionId===m.id);body=table([{h:'Action',c:a=>badge(a.action,'purple')},{h:'Detail',c:a=>esc(a.detail)},{h:'By',c:a=>esc((a.by||'').replace(/\s*\(.*\)/,''))},{h:'When',c:a=>fmtDT(a.atISO),s:a=>new Date(a.atISO).getTime()}],logs,'No activity logged for this session.');}
+  else if(m.tab==='add'){
+    let warnHtml=m.warn?'<div class="card" style="border-color:#f0c98a;background:#fdf8ee;padding:12px;margin-bottom:10px;box-shadow:none"><b style="color:var(--amber)">Heads up:</b> this partner’s '+m.warn.mm+' doesn’t match the session. Add anyway?<div class="btnrow" style="margin-top:8px"><button class="btn sm primary" data-act="add-override">Add anyway</button><button class="btn sm" data-act="add-cancelwarn">Cancel</button></div></div>':'';
+    let csvHtml=m.csvRes?table([{h:'Code',c:r=>r.code},{h:'Result',c:r=>badge(r.status,r.status==='Added'?'green':r.status.indexOf('Already')>=0?'amber':'red')}],m.csvRes):'';
+    body='<div class="grid2"><div class="card" style="box-shadow:none"><div class="ch">Add a partner</div><div class="cb"><div class="field"><label class="f">By partner code</label><div style="display:flex;gap:8px"><input class="in" data-model="addCode" value="'+esc(fv('addCode'))+'" placeholder="e.g. IP4942"><button class="btn primary" data-act="add-single">Add</button></div></div>'+warnHtml+'<hr class="sep"><div class="field"><label class="f">Or upload a list</label><div style="display:flex;gap:8px"><label class="btn sm">Upload CSV<input type="file" accept=".csv" data-file="addcsv" style="display:none"></label><button class="btn sm" data-act="dl-template:addpartners">Template</button></div></div>'+csvHtml+'</div></div>'+
+     '<div class="card" style="box-shadow:none"><div class="ch"><span>Remove partners</span>'+(m.sel.length?'<button class="btn sm danger" data-act="rm-bulk">Remove '+m.sel.length+'</button>':'')+'</div><div class="cb"><input class="in" data-model="rmSearch" data-remodal value="'+esc(fv('rmSearch'))+'" placeholder="Search name or code" style="margin-bottom:8px"><div style="max-height:240px;overflow:auto">'+
+      enr.filter(e=>((e.partnerCode+' '+((partner(e.partnerCode)||{}).name||'')).toLowerCase().includes((fv('rmSearch')||'').toLowerCase()))).map(e=>'<label class="checkline"><input type="checkbox" '+(m.sel.includes(e.partnerCode)?'checked':'')+' data-act="rm-toggle:'+e.partnerCode+'">'+esc((partner(e.partnerCode)||{}).name)+' · '+e.partnerCode+'</label>').join('')+'</div></div></div></div>';
+  }
+  else if(m.tab==='ops'){body='<div class="grid2"><div class="card" style="box-shadow:none"><div class="ch">Change trainer</div><div class="cb"><div class="field"><label class="f">Trainer</label><select class="in" data-model="subTrainer">'+db.trainers.map(t=>'<option value="'+t.id+'" '+(s.trainerId===t.id?'selected':'')+'>'+esc(t.name.replace(/\s*\(.*\)/,''))+'</option>').join('')+'</select></div><button class="btn primary" data-act="substitute" '+(st==='Live'?'disabled':'')+'>Update trainer</button>'+(st==='Live'?'<div class="help">Not while the session is live.</div>':'')+'</div></div>'+
+   '<div class="card" style="box-shadow:none"><div class="ch">Move to a new time</div><div class="cb"><div class="field"><label class="f">New date & time</label><input class="in" type="datetime-local" data-model="resch" value="'+esc(fv('resch'))+'"></div><button class="btn primary" data-act="reschedule" '+(['Live','Completed'].includes(st)?'disabled':'')+'>Reschedule</button></div></div></div>';}
+  else body='<div class="card" style="box-shadow:none"><div class="ch">Cancel this session</div><div class="cb">'+(st==='Cancelled'?'<p>Already cancelled: '+esc(s.cancelReason)+'</p>':'<div class="field"><label class="f">Reason</label><input class="in" data-model="cancelReason" value="'+esc(fv('cancelReason'))+'" placeholder="Why is it being cancelled?"></div><button class="btn danger" data-act="cancel">Cancel session</button>')+'</div></div>';
+  return shell(s.topic+' · '+s.language,head+tabs+body,'<button class="btn" data-act="closeModal">Done</button>',true);
+}
+function charRow(pfx,v){v=v||{};return '<div class="grid3" style="margin-top:8px"><div class="field"><label class="f">BU</label><select class="in" data-model="'+pfx+'_bu">'+BUS.map(b=>'<option '+((fv(pfx+'_bu')||v.bu)===b?'selected':'')+'>'+b+'</option>').join('')+'</select></div><div class="field"><label class="f">Language</label><select class="in" data-model="'+pfx+'_language">'+LANGS.map(b=>'<option '+((fv(pfx+'_language')||v.language)===b?'selected':'')+'>'+b+'</option>').join('')+'</select></div><div class="field"><label class="f">Type</label><select class="in" data-model="'+pfx+'_type">'+MTYPES.map(b=>'<option '+((fv(pfx+'_type')||v.type)===b?'selected':'')+'>'+b+'</option>').join('')+'</select></div><div class="field"><label class="f">Topic <span class="muted">(optional)</span></label><input class="in" data-model="'+pfx+'_topic" value="'+esc(fv(pfx+'_topic'))+'" placeholder="Defaults to the file name"></div><div class="field"><label class="f">Author <span class="muted">(optional)</span></label><input class="in" data-model="'+pfx+'_author" value="'+esc(fv(pfx+'_author'))+'"></div></div>';}
+function addMatModal(m){let body,footer='';
+  if(m.step===1){body='<p class="muted" style="margin-top:0">Pick one or more files to add to the library.</p><label class="btn primary">Choose file(s)<input type="file" multiple data-file="addmat" style="display:none"></label>';}
+  else{body='<p class="muted" style="margin-top:0">Tell us a little about '+(m.files.length>1?'these files':'this file')+'.</p><label class="checkline"><input type="checkbox" '+(m.same?'checked':'')+' data-act="addmat-same">Same details for all files</label>';
+    if(m.same)body+=charRow('shared',m.shared);else body+=m.files.map((f,i)=>'<div class="card" style="padding:12px;margin-bottom:10px;box-shadow:none"><b>'+esc(f)+'</b>'+charRow('pf'+i,{})+'</div>').join('');
+    footer='<button class="btn" onclick="state.modal.step=1;harvest();renderModal()">Back</button><button class="btn primary" data-act="addmat-save">Add '+m.files.length+' file(s)</button>';}
+  return shell('Add material',body,footer,true);
+}
+function openPrepare(id){const s=db.sessions.find(x=>x.id===id);state.modal={type:'prepare',id,mat:s.materialIds.slice(),tk:s.takeawayIds.slice(),q:''};renderModal();}
+function prepFiltered(){const q=(state.modal.q||'').toLowerCase();return db.materials.filter(m=>m.status==='Active').filter(m=>!q||(m.title+' '+m.type+' '+(m.author||'')+' '+m.topic+' '+m.language+' '+m.bu).toLowerCase().includes(q));}
+function manageMaterial(m){
+  const search='<div class="searchwrap">'+icon('available',16)+'<input class="in" placeholder="Search by name, type or author…" oninput="prepSearch(this.value)" value="'+esc(m.q||'')+'"></div>';
+  const selall='<div class="selall" id="prepSelall" style="display:'+(m.q?'flex':'none')+'"><span class="muted">Select all shown:</span><label><input type="checkbox" onclick="prepSelAll(\'content\',this.checked)">In-Session</label><label><input type="checkbox" onclick="prepSelAll(\'take\',this.checked)">Takeaway</label></div>';
+  const head='<thead><tr><th style="width:70px;text-align:center">In-Session</th><th style="width:64px;text-align:center">Takeaway</th><th>Title</th><th>Topic</th><th>Material type</th><th>Author</th><th>Updated</th><th>Created</th></tr></thead>';
+  return '<p class="muted" style="margin-top:0">Attach the deck and takeaway for this session from the library. <span id="prepCounts" style="color:var(--brand);font-weight:600">'+prepCounts()+'</span></p>'+search+selall+'<div class="picktbl-wrap"><table class="picktbl">'+head+'<tbody id="prepBody">'+prepRows()+'</tbody></table></div><div class="btnrow" style="margin-top:12px"><button class="btn primary" data-act="save-manage-mat">Save material</button></div>';
+}
+function sessperfModal(m){
+  const s=db.sessions.find(x=>x.id===m.id);const M=sessionMetrics(m.id);const fa=feedbackAgg(m.id);
+  const grid='<div class="kpis">'+
+   kpi('Invited',M.invited,'','team')+kpi('Joined',M.joined,M.joinedInv+' invited · '+M.joinedWk+' walk-in','trainings')+
+   kpi('Joined at least once',M.joined,M.joinedInv+' invited · '+M.joinedWk+' walk-in','activity')+
+   kpi('Completed',M.completed,'met 75% duration','past')+kpi('Completion rate',M.completionRate+'%','completed / joined','analytics')+
+   kpi('Average duration',M.avgDur+' min','scheduled','sessions')+kpi('Avg time spent',M.avgSpent+' min','per joined partner','past')+
+   kpi('Drop-off',M.dropoff+'%','joined but not completed','activity')+kpi('Session rating',fa.overall,fa.n+' responses','trainings')+'</div>';
+  return shell('Performance · '+s.topic+' · '+s.language,grid,'<button class="btn" data-act="closeModal">Close</button>',true);
+}
+function uplHistoryModal(m){
+  const rows=db.uploadHistory.slice().sort((a,b)=>new Date(b.atISO)-new Date(a.atISO));
+  const hov=arr=>arr&&arr.length?' title="'+esc(arr.join('\n'))+'"':'';
+  const body=table([
+    {h:'When',c:h=>fmtDT(h.atISO),s:h=>new Date(h.atISO).getTime()},{h:'Activity',c:h=>badge(h.kind,'blue')},
+    {h:'Added',c:h=>h.added?'<span style="color:var(--green);font-weight:600">+'+h.added+'</span>':'0'},
+    {h:'Removed',c:h=>h.removed?'<span style="color:var(--red);font-weight:600">-'+h.removed+'</span>':'0'},
+    {h:'Updated',c:h=>'<span'+hov((h.buShifts||[]).concat(h.langSwaps||[]))+' style="'+((h.buShifts&&h.buShifts.length)||(h.langSwaps&&h.langSwaps.length)?'border-bottom:1px dotted #999;cursor:help;':'')+'color:var(--amber);font-weight:600">'+(h.updated||0)+'</span>'},
+    {h:'Cohorts',c:h=>h.cohortCount||'-'},{h:'Trainings',c:h=>h.trainingsCreated||'-'},
+    {h:'Summary',c:h=>esc(h.summary)},{h:'By',c:h=>esc((h.by||'').replace(/\s*\(.*\)/,''))},
+  ],rows,'No uploads yet.');
+  return shell('Upload history',body,'<button class="btn" data-act="closeModal">Close</button>',true);
+}
+function prepRows(){
+  const m=state.modal;const items=prefSort(prepFiltered());
+  if(!items.length)return '<tr><td colspan="8"><div class="empty">No material matches your search.</div></td></tr>';
+  return items.map(x=>{const cEl=(x.type==='Session content'||x.type==='Both'),tEl=(x.type==='Takeaway'||x.type==='Both');
+    return '<tr><td style="text-align:center"><input type="checkbox" '+(m.mat.includes(x.id)?'checked':'')+' '+(cEl?'':'disabled')+' onclick="prepToggle(\''+x.id+'\',\'content\')"></td>'+
+    '<td style="text-align:center"><input type="checkbox" '+(m.tk.includes(x.id)?'checked':'')+' '+(tEl?'':'disabled')+' onclick="prepToggle(\''+x.id+'\',\'take\')"></td>'+
+    '<td><b>'+esc(x.title)+'</b></td><td>'+esc(x.topic)+'</td><td>'+badge(x.type,'blue')+'</td><td>'+esc(x.author||'-')+'</td><td>'+fmtD(x.updatedISO)+'</td><td>'+fmtD(x.uploadedISO)+'</td></tr>';}).join('');
+}
+function prefSort(a){return a.slice().sort((x,y)=>x.title.localeCompare(y.title));}
+window.prepToggle=function(id,slot){const list=slot==='content'?state.modal.mat:state.modal.tk;const i=list.indexOf(id);if(i>=0)list.splice(i,1);else list.push(id);document.getElementById('prepBody').innerHTML=prepRows();document.getElementById('prepCounts').innerHTML=prepCounts();};
+window.prepSearch=function(v){state.modal.q=v;document.getElementById('prepBody').innerHTML=prepRows();const sa=document.getElementById('prepSelall');if(sa)sa.style.display=v?'flex':'none';};
+window.prepSelAll=function(slot,checked){const items=prepFiltered();const list=slot==='content'?state.modal.mat:state.modal.tk;items.forEach(x=>{const el=slot==='content'?(x.type==='Session content'||x.type==='Both'):(x.type==='Takeaway'||x.type==='Both');if(!el)return;const i=list.indexOf(x.id);if(checked&&i<0)list.push(x.id);if(!checked&&i>=0)list.splice(i,1);});document.getElementById('prepBody').innerHTML=prepRows();document.getElementById('prepCounts').innerHTML=prepCounts();};
+function prepCounts(){return state.modal.mat.length+' in-session · '+state.modal.tk.length+' takeaway selected';}
+function prepareModal(m){
+  const s=db.sessions.find(x=>x.id===m.id);const st=computeStatus(s);
+  const search='<div class="searchwrap">'+icon('available',16)+'<input class="in" placeholder="Search by name, type or author…" oninput="prepSearch(this.value)" value="'+esc(m.q||'')+'"></div>';
+  const selall='<div class="selall" id="prepSelall" style="display:'+(m.q?'flex':'none')+'"><span class="muted">Select all shown:</span><label><input type="checkbox" onclick="prepSelAll(\'content\',this.checked)">In-Session</label><label><input type="checkbox" onclick="prepSelAll(\'take\',this.checked)">Takeaway</label></div>';
+  const head='<thead><tr><th style="width:70px;text-align:center">In-Session</th><th style="width:64px;text-align:center">Takeaway</th><th>Title</th><th>Topic</th><th>Material type</th><th>Author</th><th>Updated</th><th>Created</th></tr></thead>';
+  const body='<p class="muted" style="margin-top:0">Tick a row to add it as this session’s content or takeaway. You can pick more than one. <span id="prepCounts" style="color:var(--brand);font-weight:600">'+prepCounts()+'</span></p>'+search+selall+'<div class="picktbl-wrap"><table class="picktbl">'+head+'<tbody id="prepBody">'+prepRows()+'</tbody></table></div>';
+  let footer='<button class="btn" data-act="closeModal">Close</button><button class="btn primary" data-act="save-materials">Save</button>';
+  if(['Live','Waiting Room'].includes(st))footer='<button class="btn" data-act="closeModal">Close</button><button class="btn primary" data-act="enter-class:'+m.id+'" data-mode="trainer">Save & go live →</button>';
+  return shell('Prepare · '+s.topic+' · '+s.language,body,footer,true);
+}
+function openSessDetail(id){state.modal={type:'sessdetail',id};renderModal();}
+function sessDetailModal(m){
+  const s=db.sessions.find(x=>x.id===m.id);const enr=sessEnr(m.id);const a=att(m.id);
+  const invited=enr.filter(e=>e.source==='Assigned'||e.source==='Manually added').length;
+  const walkinEnr=enr.filter(e=>String(e.source).indexOf('Walk-in')===0).length;
+  const joined=a.length;const joinedInvited=a.filter(x=>x.source==='Assigned'||x.source==='Manually added').length;const joinedWalkin=a.filter(x=>String(x.source).indexOf('Walk-in')===0).length;
+  const completed=a.filter(x=>x.completed).length;const fb=db.feedback.filter(f=>f.sessionId===m.id);const rating=fb.length?(fb.reduce((t,f)=>t+f.overall,0)/fb.length).toFixed(1):'-';
+  const stats='<div class="kpis" style="margin-bottom:16px">'+kpi('Total invited',invited+walkinEnr,invited+' invited · '+walkinEnr+' walk-in','team')+kpi('Total joined',joined,joinedInvited+' invited · '+joinedWalkin+' walk-in','trainings')+kpi('Completed',completed,'finished 75%+','past')+kpi('Session rating',rating,'out of 5','analytics')+'</div>';
+  const tmt=iso=>iso?new Date(iso).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}):'-';
+  const rows=a.map(x=>{const p=partner(x.partnerCode)||{};return {p,x};});
+  const tbl=table([{h:'Partner',c:r=>'<b>'+esc(r.p.name||r.x.partnerCode)+'</b>'},{h:'Partner ID',c:r=>r.x.partnerCode},{h:'Type',c:r=>badge(String(r.x.source).indexOf('Walk-in')===0?'Walk-in':'Invited',String(r.x.source).indexOf('Walk-in')===0?'teal':'blue')},{h:'Join time',c:r=>tmt(r.x.joinISO),s:r=>new Date(r.x.joinISO||0).getTime()},{h:'Exit time',c:r=>tmt(r.x.exitISO),s:r=>new Date(r.x.exitISO||0).getTime()},{h:'Total duration',c:r=>r.x.durationMin+' min'+(r.x.reconnects?' ('+r.x.reconnects+' rejoin)':''),s:r=>r.x.durationMin},{h:'Completed',c:r=>r.x.completed?badge('Yes','green'):badge('No','red')}],rows,'No attendance recorded.');
+  return shell('Session details · '+s.topic+' · '+s.language,stats+'<h3 class="sec" style="margin-top:0">Partner attendance</h3>'+tbl,'<button class="btn" data-act="closeModal">Close</button>',true);
+}
+function notifModal(){
+  const aud=state.role==='Partner'?'Partner':state.role==='Trainer'?'Trainer':null;
+  const list=db.notifications.filter(n=>!aud||n.audience===aud).slice(0,15);
+  const body=list.length?list.map(n=>{const s=db.sessions.find(x=>x.id===n.sessionId);return '<div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)"><div style="width:34px;height:34px;border-radius:10px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('bell',16)+'</div><div><div style="font-weight:600;font-size:13.5px">'+esc(n.trigger)+'</div><div class="muted" style="font-size:12px">'+(s?esc(s.topic+' · '+s.language)+' · ':'')+esc(n.channel)+'</div><div class="muted" style="font-size:11px;margin-top:1px">'+fmtDT(n.atISO)+'</div></div></div>';}).join(''):'<div class="empty"><div class="big">You’re all caught up</div><div>No notifications right now.</div></div>';
+  return shell('Notifications',body,'<button class="btn" data-act="closeModal">Close</button>');
+}
+function feedbackModal(m){
+  const s=db.sessions.find(x=>x.id===m.id);const fb=m.fb;
+  const RC=['#dc2626','#ef7c1a','#f0b429','#7cb342','#0f9d58'];
+  const stars=k=>'<div style="display:flex;gap:5px">'+[1,2,3,4,5].map(n=>{const on=fb[k]>=n;const col=RC[fb[k]-1]||'#f0b429';return '<button class="btn sm" style="width:36px;'+(on?'background:'+col+';color:#fff;border-color:'+col:'')+'" data-act="star:'+n+'" data-k="'+k+'">'+n+'</button>';}).join('')+'</div>';
+  const body='<p class="muted" style="margin-top:0">A quick rating from 1 (poor) to 5 (excellent).</p><div class="field"><label class="f">How was the session overall?</label>'+stars('overall')+'</div><div class="field"><label class="f">How was the trainer?</label>'+stars('trainer')+'</div><div class="field"><label class="f">Was the content useful?</label>'+stars('content')+'</div><div class="field"><label class="f">Would you recommend it?</label><div class="btnrow"><button class="btn '+(fb.recommend===true?'primary':'')+'" data-act="recommend:yes">Yes</button><button class="btn '+(fb.recommend===false?'primary':'')+'" style="'+(fb.recommend===false?'background:#dc2626;color:#fff;border-color:#dc2626':'')+'" data-act="recommend:no">No</button></div></div><div class="field"><label class="f">Anything to add? <span class="muted">(optional)</span></label><textarea class="in" rows="3" data-model="fbComment">'+esc(fv('fbComment'))+'</textarea></div>';
+  return shell('Share your feedback',body,'<button class="btn primary" data-act="submit-feedback">Submit feedback</button>');
+}
+render();
+</script>
+</body>
+</html>
