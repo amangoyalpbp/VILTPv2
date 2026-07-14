@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Saksham</title>
+<title>Training Setu</title>
 <style>
 :root{
   --brand:#2563eb;--brand-600:#1d4ed8;--brand-700:#1e40af;
@@ -483,7 +483,7 @@ function render(){
   const navItem=([to,l,ic])=>'<a data-nav="'+to+'" class="'+(state.route===to?'active':'')+'">'+icon(ic)+'<span>'+l+'</span></a>';
   let navHtml='<div class="navlbl">Menu</div>'+groups.main.map(navItem).join('');
   if(groups.manage)navHtml+='<div class="navlbl">Manage</div>'+groups.manage.map(navItem).join('');
-  const side='<aside class="sidebar"><div class="brand"><div class="mk">S</div><div><h1>Saksham</h1><small>Training, simplified</small></div></div><nav>'+navHtml+'</nav>'+
+  const side='<aside class="sidebar"><div class="brand"><div class="mk">S</div><div><h1>Training Setu</h1><small>Training, simplified</small></div></div><nav>'+navHtml+'</nav>'+
     '<div class="foot"><div class="chip" data-act="logout" title="Switch role"><div class="av">'+initials(state.user.name)+'</div><div><div class="nm">'+esc(state.user.name)+'</div><div class="rl">'+esc(state.role)+'</div></div></div><button class="switch" data-act="logout">Switch role</button></div></aside>';
   const live=relevantLive().length;
   const dateStr=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
@@ -554,7 +554,7 @@ function liveBanner(){const live=relevantLive();if(!live.length)return '';const 
 /* ===================== LOGIN ===================== */
 function loginView(){
   const roles=[['Super Admin','Full access, your team and every insight','dashboard'],['Training Admin','Set up trainings, run sessions and track results','sessions'],['Trainer','Prepare, go live and see how partners engage','trainer'],['Partner','Find trainings, join live and grow your skills','trainings']];
-  return '<div class="login"><div class="lcard"><div class="lbrand"><div class="mk" style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px">S</div><div><h1>Saksham</h1><div class="tag">Learning that grows with you</div></div></div>'+
+  return '<div class="login"><div class="lcard"><div class="lbrand"><div class="mk" style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px">S</div><div><h1>Training Setu</h1><div class="tag">Learning that grows with you</div></div></div>'+
    '<p class="sub">Choose how you’d like to continue.</p>'+
    roles.map(([r,d,ic])=>'<button class="rbtn" data-act="login:'+r+'"><div class="ri">'+icon(ic,20)+'</div><div><div class="rn">'+r+'</div><div class="rd">'+d+'</div></div><span class="arw">'+icon('available',18)+'</span></button>').join('')+
    '<hr class="sep"><div style="display:flex;justify-content:space-between;align-items:center"><span class="muted" style="font-size:12px">Comes preloaded with live and upcoming trainings.</span><button class="btn sm ghost" data-act="reset">Reset data</button></div></div></div>';
@@ -748,9 +748,9 @@ function usersView(){
    '<div class="card"><div class="ch">Your team</div><div class="cb" style="padding:0">'+table([{h:'Name',c:u=>'<b>'+esc(u.name.replace(/\s*\(.*\)/,''))+'</b>'},{h:'Emp code',c:u=>esc(u.empCode||'-')},{h:'Email',c:u=>esc(u.email||'-')},{h:'Role',c:u=>badge(u.role,'blue')}],db.users)+'</div></div></div>'+
    '<h3 class="sec">Who can do what</h3><div class="card"><div class="cb" style="padding:0">'+table([{h:'Capability',c:r=>r[0]},{h:'Super Admin',c:r=>r[1]},{h:'Training Admin',c:r=>r[2]},{h:'Trainer',c:r=>r[3]},{h:'Partner',c:r=>r[4]}],rbac)+'</div></div>';
 }
-function notifView(){return h2('Notifications','Everything Saksham has sent to partners and trainers.')+'<div class="card"><div class="cb" style="padding:0">'+
+function notifView(){return h2('Notifications','Everything Training Setu has sent to partners and trainers.')+'<div class="card"><div class="cb" style="padding:0">'+
    table([{h:'To',c:n=>badge(n.audience,'blue')},{h:'Message',c:n=>esc(n.trigger)},{h:'Channel',c:n=>esc(n.channel)},{h:'Session',c:n=>{const s=db.sessions.find(x=>x.id===n.sessionId);return s?esc(s.topic+' · '+s.language):'-';}},{h:'Status',c:n=>badge(n.status,'green')},{h:'When',c:n=>fmtDT(n.atISO),s:n=>new Date(n.atISO).getTime()}],db.notifications,'No notifications yet')+'</div></div>';}
-function auditView(){return h2('Activity Log','A record of every change made in Saksham.')+'<div class="card"><div class="cb" style="padding:0">'+
+function auditView(){return h2('Activity Log','A record of every change made in Training Setu.')+'<div class="card"><div class="cb" style="padding:0">'+
    table([{h:'Action',c:a=>badge(a.action,'purple')},{h:'Detail',c:a=>esc(a.detail)},{h:'By',c:a=>esc(a.by.replace(/\s*\(.*\)/,''))},{h:'When',c:a=>fmtDT(a.atISO),s:a=>new Date(a.atISO).getTime()}],db.audit)+'</div></div>';}
 function movementView(){
   const q=(fv('mvq')||'').trim();const sel=fv('mvsel');
